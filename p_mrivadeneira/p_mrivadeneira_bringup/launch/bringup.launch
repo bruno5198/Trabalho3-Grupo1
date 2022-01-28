@@ -1,0 +1,55 @@
+<launch>
+    <!--Bloco 1: argumentos do launch file.-->
+    <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
+    <arg name="player_name" default="p_mrivadeneira"/>
+    <arg name="player_color" default="Red"/>
+    <arg name="visualize" default="true"/>
+    <arg name="camera_visualize" default="false"/>
+    <arg name="x_pos" default="-0.4"/>
+    <arg name="y_pos" default="-1.5"/>
+    <arg name="z_pos" default="0.0"/>
+
+    <!--Bloco 2: Spawn-->
+    <include file="$(find p_mrivadeneira_bringup)/launch/spawn.launch">
+        <arg name="player_name" default="$(arg player_name)"/>
+        <arg name="x_pos" default="$(arg x_pos)"/>
+        <arg name="y_pos" default="$(arg y_pos)"/>
+        <arg name="z_pos" default="$(arg z_pos)"/>
+    </include>
+
+<!--     <group ns="$(arg player_name)"> -->
+<!--         Launch RQT ROBOT STEERING - Change topic to player topic -->
+<!--         <node pkg="rqt_robot_steering" type="rqt_robot_steering" name="teleop_rqt" output="screen"> -->
+<!--             <param name="~default_topic" value="/$(arg player_name)/cmd_vel"></param> -->
+<!--         </node> -->
+<!--     </group> -->
+
+
+    <!--Driver-->
+<!--     <node pkg="p_mrivadeneira_player" type="driver.py" name="$(arg player_name)" output="screen">-->
+<!--     </node>-->
+
+       <!--Target Detector-->
+    <include file="$(find p_mrivadeneira_bringup)/launch/target_detection.launch">
+        <arg name="player_name" default="$(arg player_name)"/>
+        <arg name="camera_visualize" default="$(arg camera_visualize)"/>
+    </include>
+
+    <group ns="$(arg player_name)">
+<!--    To classify TF messages by the player's name to avoid collisions -->
+        <param name="tf_prefix" value="$(arg player_name)"></param>
+
+        <!--Bloco 3: Carregamento do xacro do robot para o parâmetro robot_description.-->
+        <param name="robot_description" command="$(find xacro)/xacro --inorder $(find p_mrivadeneira_description)/urdf/p_mrivadeneira.urdf.xacro player_name:=$(arg player_name) player_color:=$(arg player_color)" />
+
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+        <group if="$(arg visualize)">
+    <!--     Include Visualize launch -->
+            <include file="$(find p_mrivadeneira_bringup)/launch/visualize.launch">
+                <arg name="player_name" default="$(arg player_name)"/>
+            </include>
+        </group>
+    </group>
+
+</launch>

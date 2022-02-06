@@ -30,8 +30,8 @@ class Driver():
 
     def __init__(self):
         # # Goal creation.
-        # self.goal = PoseStamped()
-        # self.goal_active = False
+        self.goal = PoseStamped()
+        self.manual_goal_active = False
         self.closer_body_dist = 0
         self.back_image_to_show = None
         self.image_to_show = None
@@ -66,10 +66,7 @@ class Driver():
         self.wall_detected = False
 
         self.initialConfig()
-        #
-        # # # self.color = rospy.get_param('/player_color')
-        # # print("Cor = " + rospy.get_param("/my_integer"))
-        #
+
         # Publisher creation.
         self.publisher_command = rospy.Publisher('/' + self.name + '/cmd_vel', Twist, queue_size=1)
 
@@ -84,7 +81,7 @@ class Driver():
 
         self.laser_scan = rospy.Subscriber("/" + self.name + "/scan", LaserScan, self.laserScanMessageReceivedCallback)
 
-        # self.goal_subscriber = rospy.Subscriber('/move_base_simple/goal', PoseStamped, self.goalReceivedCallback)
+        self.goal_subscriber = rospy.Subscriber('/move_base_simple/goal', PoseStamped, self.goalReceivedCallback)
 
 
     def initialConfig(self):
@@ -109,7 +106,6 @@ class Driver():
             self.my_team = self.red_team
             hunter_team = self.blue_team
             prey_team = self.green_team
-            print(hunter_team)
         elif self.name in self.blue_team:
             self.my_team = self.blue_team
             hunter_team = self.green_team
@@ -128,20 +124,23 @@ class Driver():
         # --------------------------------------------------------------------------------------
 
 
+    def goalReceivedCallback(self, msg):
+        # Verify if goal set manually is on odom frame.
+        self.goal = copy.copy(msg)  # Store goal.
+        self.manual_goal_active = True
+
+
     def handleImageCallback(self, msg):
         mass_center_prey, mass_center_hunter, cv_image, prey_mask, hunter_mask = self.imageTreatment(msg, 'Front')
 
         # ----------------------------------- Prey detection -----------------------------------
         self.robot_prey_state = 'Prey undetected!'
         if mass_center_prey is None:
-            # self.goal_active = False
             self.prey_detected = False
             rospy.loginfo('Prey undetected!')
         else:
             self.preyPosition = mass_center_prey[0] - (cv_image.shape[1] / 2)
-            print('self.preyPositionDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd: ' + str(self.preyPosition))
             self.prey_size = np.sum(prey_mask == 255)
-            print('Prey size: ' + str(self.prey_size))
             if self.prey_size != 0:
                 if self.preyPosition > 0:
                     rospy.loginfo('Prey detected at right side!')
@@ -154,19 +153,16 @@ class Driver():
             else:
                 rospy.loginfo('Prey undetected!')
                 self.prey_detected = False
-            # self.goal_active = True
         # --------------------------------------------------------------------------------------
 
         # ---------------------------------- Hunter detection ----------------------------------
         self.robot_hunter_state = 'Hunter undetected!'
         if mass_center_hunter is None:
-            # self.goal_active = False
             self.hunter_detected = False
             rospy.loginfo('Hunter undetected!')
         else:
             self.hunterPosition = mass_center_hunter[0] - (cv_image.shape[1] / 2)
             self.hunter_size = np.sum(hunter_mask == 255)
-            print('Hunter size: ' + str(self.hunter_size))
             if self.hunter_size != 0:
                 if (self.closer_body_dist > 3.0) or (self.closer_body_dist == 0):
                     self.robot_hunter_state = 'Hunter detected far away!'
@@ -177,7 +173,6 @@ class Driver():
             else:
                 rospy.loginfo('Hunter undetected!')
                 self.hunter_detected = False
-            # self.goal_active = True
         # --------------------------------------------------------------------------------------
 
     def handleBackImageCallback(self, msg):
@@ -185,7 +180,6 @@ class Driver():
 
         # ---------------------------------- Hunter detection ----------------------------------
         if back_mass_center_hunter is None:
-            # self.goal_active = False
             self.back_hunter_detected = False
             rospy.loginfo('Hunter undetected behind robot!')
         else:
@@ -199,7 +193,6 @@ class Driver():
                     self.back_hunter_detected = True
             else:
                 self.back_hunter_detected = False
-            # self.goal_active = True
         # --------------------------------------------------------------------------------------
 
         # --------------------------- Show front and back camera image -------------------------
@@ -227,6 +220,36 @@ class Driver():
         cv2.waitKey(3)
         # --------------------------------------------------------------------------------------
 
+    def drawingFunction(self, cv_image, mask, drawing_color):
+        # ------------------------ Visual identification of prey/hunter ------------------------
+        image_text = ['Prey', 'Hunter']
+        for ii in range(2):
+            contours, _ = cv2.findContours(mask[ii], cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+            contours_poly = [None] * len(contours)
+            boundRect = [None] * len(contours)
+            centers = [None] * len(contours)
+            radius = [None] * len(contours)
+            for i, c in enumerate(contours):
+                contours_poly[i] = cv2.approxPolyDP(c, 3, True)
+                boundRect[i] = cv2.boundingRect(contours_poly[i])
+                centers[i], radius[i] = cv2.minEnclosingCircle(contours_poly[i])
+
+            color = drawing_color[ii]
+            thickness = 2
+            if len(contours) == 1:
+                cv2.rectangle(cv_image, (int(boundRect[0][0]), int(boundRect[0][1])), (int(boundRect[0][0] + boundRect[0][2]), int(boundRect[0][1] + boundRect[0][3])), color, thickness)
+                cv2.putText(cv_image, image_text[ii], (int(boundRect[0][0]) - 15, int(centers[0][1]) - boundRect[0][3]), cv2.FONT_HERSHEY_SIMPLEX, 1, color, thickness)
+            elif len(contours) > 1:
+                bigger = 0
+                length = 0
+                for i in range(len(contours)):
+                    if len(contours[i]) > length:
+                        length = len(contours[i])
+                        bigger = i
+                cv2.rectangle(cv_image, (int(boundRect[bigger][0]), int(boundRect[bigger][1])), (int(boundRect[bigger][0] + boundRect[bigger][2]), int(boundRect[bigger][1] + boundRect[bigger][3])), color, thickness)
+        # --------------------------------------------------------------------------------------
+
     def imageTreatment(self, msg, camera):
         # ---------------------------- Initialize the CvBridge class ---------------------------
         bridge = CvBridge()
@@ -240,7 +263,6 @@ class Driver():
             elif camera == 'Back':
                 self.back_image_to_show = cv_image
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
-            # self.goal_active = False
             rospy.logerr(camera + ' camera Error!')
         # --------------------------------------------------------------------------------------
 
@@ -252,8 +274,7 @@ class Driver():
 
         # ---------------- Morphological transformation for each mask - Closing ----------------
         kernel = np.ones((5, 5), np.uint8)  # Structuring element used for Closing.
-        green_mask = cv2.dilate(green_mask, kernel,
-                                iterations=5)  # Morphological operator dilate applied to green mask.
+        green_mask = cv2.dilate(green_mask, kernel, iterations=5)  # Morphological operator dilate applied to green mask.
         green_mask = cv2.erode(green_mask, kernel, iterations=5)  # Morphological operator erode applied to green mask.
         red_mask = cv2.dilate(red_mask, kernel, iterations=5)  # Morphological operator dilate applied to red mask.
         red_mask = cv2.erode(red_mask, kernel, iterations=5)  # Morphological operator erode applied to red mask.
@@ -262,15 +283,24 @@ class Driver():
         # --------------------------------------------------------------------------------------
 
         # --------- Attribute prey and hunter mask to each team according to his color ---------
+        mask = []
+        drawing_color = []
         if self.my_team == self.blue_team:
             prey_mask = red_mask
             hunter_mask = green_mask
+            mask = [red_mask, green_mask]
+            drawing_color = [(0, 0, 200), (0, 200, 0)]
         elif self.my_team == self.red_team:
             prey_mask = green_mask
             hunter_mask = blue_mask
+            mask = [green_mask, blue_mask]
+            drawing_color = [(0, 200, 0), (200, 0, 0)]
         elif self.my_team == self.green_team:
             prey_mask = blue_mask
             hunter_mask = red_mask
+            mask = [blue_mask, red_mask]
+            drawing_color = [(200, 0, 0), (0, 0, 200)]
+        self.drawingFunction(cv_image, mask, drawing_color)
         # --------------------------------------------------------------------------------------
 
         # ----------------------------------- Prey detection -----------------------------------
@@ -332,8 +362,6 @@ class Driver():
     # -----------------------------------------------------------------------------
 
     def laserScanMessageReceivedCallback(self, msg):
-        # rospy.loginfo('Received laser scan message')
-
         x_prev, y_prev = 1000, 1000
         dist_threshold = 1.5
 
@@ -377,7 +405,6 @@ class Driver():
                 if len(marker_array.markers[i].points) <= 2:                                # Insignificant objects detected.
                     pass
                 elif len(marker_array.markers[i].points) >= 15:
-                    print('marker ' + str(marker_array.markers[i].id) + ' is a wall')       # Wall detected.
                     self.wall_detected = True
 
                     # ................ Detect distance to wall ................
@@ -393,7 +420,6 @@ class Driver():
 
                     dist_to_wall = math.sqrt((min_x_dist ** 2) + (min_y_dist ** 2))
 
-                    print('dist_to_wall ' + str(dist_to_wall))
                     # .........................................................
 
                     if dist_to_wall < 1:
@@ -412,8 +438,6 @@ class Driver():
                         self.avoid_wall = True
 
                 else:
-                    print('marker ' + str(marker_array.markers[i].id) + ' is a body')       # Body (other player) detected.
-
                     # ................ Detect distance to body ................
                     min_x_dist = marker_array.markers[i].points[0].x
                     min_y_dist = marker_array.markers[i].points[0].y
@@ -430,9 +454,6 @@ class Driver():
                     all_body_dist.append(dist_to_body)
 
                     self.closer_body_dist = min(all_body_dist)
-
-                    # print('dist_to_body ' + str(self.dist_to_body))
-                    print('closer_body_dist ' + str(self.closer_body_dist))
 
                     # ______ Check if closer body it's a hunter ______
                     if (self.closer_body_dist <= 3.0) and (self.hunter_size > self.prey_size):
@@ -531,7 +552,6 @@ class Driver():
         # --------------------------------------------------------------------------------------
 
     def findPrey(self, minimum_speed=0.1, maximum_speed=1):
-        print('*****************************: ' + str(self.last_prey_detected))
         # ------------------ Set linear and angular velocity to find preys ---------------------
         self.robot_general_state = "Finding for prey's"
         if self.counter <= 140:
@@ -549,19 +569,40 @@ class Driver():
             self.counter = 0
         # --------------------------------------------------------------------------------------
 
-    def sendCommandCallback(self, event):
-        print('Sending twist command')
-        print(str(self.prey_detected) + '$' + str(self.hunter_detected) + '$' + str(self.avoid_wall) + '$' + str(self.closer_body) + '$' + str(self.back_hunter_detected))
+    # -------------------------- Drive though goal set manually ----------------------------
+    def driveToGoal(self):
+        goal_copy = copy.deepcopy(self.goal)
+        goal_copy.header.stamp = rospy.Time.now()
+        goal_in_base_lik = self.tf_buffer.transform(goal_copy, self.name + '/base_footprint', rospy.Duration(1))
 
+        self.angle = math.atan2(goal_in_base_lik.pose.position.y, goal_in_base_lik.pose.position.x)
+
+        # ......... Decrease linear velocity when it's closer to goal .........
+        if 0.1 < goal_in_base_lik.pose.position.x <= 1.5:
+            self.speed = goal_in_base_lik.pose.position.x
+        else:
+            self.speed = 0.5
+        # .....................................................................
+
+        # .................. Stop following the manual goal ...................
+        if goal_in_base_lik.pose.position.x <= 0.1:
+            self.manual_goal_active = False
+        # .....................................................................
+    # --------------------------------------------------------------------------------------
+
+    def sendCommandCallback(self, event):
         # ------------------------------ Robot check what to do --------------------------------
-        if ((self.hunter_detected == True) or (self.back_hunter_detected == True)) and (self.closer_body == True) and (self.avoid_wall == False):       # Avoid a hunter.
-            self.avoidHunter()
-        elif (self.prey_detected == False) and (self.hunter_detected == False) and (self.avoid_wall == False):                                          # No goal, find a prey.
-            self.findPrey()
-        elif (self.prey_detected == False) and (self.hunter_detected == False) and (self.avoid_wall == True):                                           # Avoid a wall.
-            self.avoidWall()
-        elif (self.prey_detected == True) and (self.hunter_detected == False) and (self.closer_body == False):                                          # Catch a prey.
-            self.catchPrey()
+        if self.manual_goal_active == True:
+            self.driveToGoal()
+        else:
+            if ((self.hunter_detected == True) or (self.back_hunter_detected == True)) and (self.closer_body == True) and (self.avoid_wall == False):       # Avoid a hunter.
+                self.avoidHunter()
+            elif (self.prey_detected == False) and (self.hunter_detected == False) and (self.avoid_wall == False):                                          # No goal, find a prey.
+                self.findPrey()
+            elif (self.prey_detected == False) and (self.hunter_detected == False) and (self.avoid_wall == True):                                           # Avoid a wall.
+                self.avoidWall()
+            elif (self.prey_detected == True) and (self.hunter_detected == False) and (self.closer_body == False):                                          # Catch a prey.
+                self.catchPrey()
         # --------------------------------------------------------------------------------------
 
         twist = Twist()

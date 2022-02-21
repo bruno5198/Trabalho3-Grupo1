@@ -1,0 +1,22 @@
+<launch>
+    <arg name="player_name" default="p_mrivadeneira"/>
+    <arg name="camera_visualize" default="true"/>
+
+     <group ns="$(arg player_name)">
+     <!--Target Detector--> -->
+        <node pkg="p_mrivadeneira_player" type="detection.py" name="detection" output="screen" args="$(arg camera_visualize)">
+            <remap from="/detection" to="/$(arg player_name)/detection"/>
+            <remap from="/camera/rgb/image_raw" to="/$(arg player_name)/camera/rgb/image_raw"/>
+            <remap from="/camera/rgb/camera_info" to="/$(arg player_name)/camera/rgb/camera_info"/>
+            <remap from="/move_base_simple/goal" to="/$(arg player_name)/move_base_simple/goal"/>
+            <remap from="/markers" to="/$(arg player_name)/markers"/>
+        </node>
+
+     <!--Lidar Scan--> -->
+        <node pkg="p_mrivadeneira_player" type="clustering_scan.py" name="clustering_scan" output="screen">
+            <remap from="/markers" to="/$(arg player_name)/markers"/>
+            <remap from="/scan" to="/$(arg player_name)/scan"/>
+        </node>
+
+     </group>
+</launch>

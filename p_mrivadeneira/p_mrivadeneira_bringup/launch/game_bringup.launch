@@ -1,9 +1,10 @@
 <launch>
-    <!-- Import parameters -->
+    <!-- Import game parameters -->
     <rosparam command="load" file="$(find p_mrivadeneira_bringup)/params/game.yaml"/>
 
-<!--     Criacao do world em Gazebo -->
+<!--     Wrold in Gazebo -->
 <!--     <include file="$(find p_mrivadeneira_bringup)/launch/gazebo.launch"> -->
+<!--            <arg name="arena" default="1"/>-->
 <!--     </include> -->
 
 <!-- RED TEAM -->
@@ -12,7 +13,7 @@
         <arg name="player_color" default="Red"/>
         <arg name="visualize" default="false"/>
         <arg name="camera_visualize" default="false"/>
-        <arg name="x_pos" default="3.0"/>
+        <arg name="x_pos" default="6.0"/>
         <arg name="y_pos" default="3.0"/>
         <arg name="z_pos" default="0.0"/>
     </include>
@@ -43,7 +44,7 @@
         <arg name="player_color" default="Green"/>
         <arg name="visualize" default="false"/>
         <arg name="camera_visualize" default="false"/>
-        <arg name="x_pos" default="-3.0"/>
+        <arg name="x_pos" default="-6.0"/>
         <arg name="y_pos" default="3.0"/>
         <arg name="z_pos" default="0.0"/>
     </include>
@@ -73,7 +74,7 @@
         <arg name="player_name" default="blue1"/>
         <arg name="player_color" default="Blue"/>
         <arg name="visualize" default="true"/>
-        <arg name="camera_visualize" default="true"/>
+        <arg name="camera_visualize" default="false"/>
         <arg name="x_pos" default="0.0"/>
         <arg name="y_pos" default="-1.5"/>
         <arg name="z_pos" default="0.0"/>
@@ -99,6 +100,7 @@
 <!--         <arg name="z_pos" default="0.0"/>-->
 <!--     </include>-->
 
-    <node name="set_players_names" pkg="th_referee" type="set_players_names" output="screen"/>
+    <!--Load set players name node-->
+    <node name="set_players_names" pkg="th_referee" type="set_player_names" output="screen"/>
 
 </launch>

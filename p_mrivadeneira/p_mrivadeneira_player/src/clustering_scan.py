@@ -13,6 +13,7 @@ import random
 
 publisher = rospy.Publisher('/markers', MarkerArray, queue_size=1)
 name = rospy.get_name()
+final_name = ''
 
 if name.find('red') >= 0:
     final_name = 'red' + name[4]
@@ -48,7 +49,8 @@ def callbackMessageReceived(msg):
 
     marker_array = MarkerArray()
 
-    z = 0
+    # z = 0.14
+    z = 0.07        # In order tp get a better "real" position when transforming the marker to a camera pixel
 
     for idx, range in enumerate(msg.ranges):
 
@@ -71,7 +73,9 @@ def callbackMessageReceived(msg):
 
         if len(marker_array.markers) > 0:
             last_marker = marker_array.markers[-1]
-            last_marker.points.append(Point(x=x,y=y,z=0))
+            # last_marker.points.append(Point(x=x,y=y-0.07,z=0.07))          # Transformation from base_scan to camera_rgb_frame ==> x=-0.029; y=0, z=0.14
+            last_marker.points.append(Point(x=x,y=y,z=z))
+
 
         x_prev = x
         y_prev = y

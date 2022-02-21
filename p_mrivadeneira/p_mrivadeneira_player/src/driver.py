@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
+import random
 
 import rospy
 import re
+import sys
 import tf2_ros
-from geometry_msgs.msg import Twist, PoseStamped
-from visualization_msgs.msg import MarkerArray
-from p_mrivadeneira_player.msg import camera_detection
-
-import copy
 from math import *
+from geometry_msgs.msg import Twist, PoseStamped, Point
+from std_msgs.msg import Float64
+from p_mrivadeneira_player.msg import detection_info
+
 
 class Driver():
 
@@ -26,30 +27,68 @@ class Driver():
         self.timer = rospy.Timer(rospy.Duration(0.1), self.SendCommandCallback)
 
         # Subscriptions
-        self.coords_subscriber = rospy.Subscriber(self.name + '/setpoint_msg/coords', camera_detection, self.CoordsReceivedCallback)
-        self.scan_subscriber = rospy.Subscriber(self.name + '/markers', MarkerArray, self.LaserScanPointsReceived)
+        self.coords_subscriber = rospy.Subscriber(self.name + '/detection', detection_info, self.SensorsCallback)
+        self.left_arm_subscriber = rospy.Subscriber(self.name + '/left_arm_base_to_left_arm_controller/command', Float64, self.left_arm)
+        self.right_arm_subscriber = rospy.Subscriber(self.name + '/right_arm_base_to_right_arm_controller/command', Float64, self.right_arm)
 
         self.tf_buffer = tf2_ros.Buffer()
         self.listener = tf2_ros.TransformListener(self.tf_buffer)
 
-        self.goal = PoseStamped()
-        self.goal_active = False
+        # Message variables initialization --------------------------------------------------
+        # Goal
+        self.flag_goal_active = False
+        self.flag_goal_achieved = False
+        self.goal = Point()
+
+        # Target
+        self.flag_target_close = False
+        self.target_center = 0
+        self.target_area = 0
+        self.target = Point()
+        self.last_target_position_left = False
+
+        # Threat
+        self.flag_threat_close = False
+        self.threat_center = 0
+        self.threat_area = 0
+        self.threat = Point()
+        self.last_threat_position_left = True
+
+        # Near bodies
+        self.flag_near_body = False
+        self.near_body_position = 0
+
+        # Near walls
+        self.flag_near_wall = False
+        self.near_wall_coords = (0,0)
+        self.walls = []
+        self.previous_front_wall = False
+
+        # State machine
+        self.state = 'None'
 
         # Initial values
         self.angle = 0
         self.speed = 0
 
-        self.target_position = 0
-        self.target_area = 0
-        self.last_target_position_left = True
-        self.threat_position = 0
-        self.threat_area = 0
+        # Arms position
+        self.left_arm_position = 0
+        self.right_arm_position = 0
 
-        self.flag_near_body = False
-        self.near_body_position = 0
+        # Interface
+        args = rospy.myargv(argv=sys.argv)
+        try:
+            self.visualize = args[1]
+        except:
+            self.visualize = "false"
 
-        self.flag_near_wall = False
-        self.near_wall_coords = (0,0)
+    def left_arm(self, pos):
+
+        self.left_arm_position = pos
+
+    def right_arm(self, pos):
+
+        self.right_arm_position = pos
 
     def TeamsDefinition(self, name):
 
@@ -73,15 +112,87 @@ class Driver():
         except:
             print("I can't understand the color of my team. I'm gonna die alone. I'm sad. :(")
 
-    def CoordsReceivedCallback(self, cam_detection):
+    def Interface(self):
 
-        # print('The readed coords are: ')
-        # print(cam_detection)
+        print('----------------------------------------------------')
+        print('DRIVER NODE')
+        print('Name: ' + self.name)
+        print('State: ' + self.state + '\n')
 
-        self.target_position = cam_detection.target_center
-        self.target_area = cam_detection.target_area
-        self.threat_position = cam_detection.threat_center
-        self.threat_area = cam_detection.threat_area
+        print('Detection information:')
+        print('     GOAL')
+        print('         Goal detection: ' + str(self.flag_goal_active))
+        print('         Goal achieved: ' + str(self.flag_goal_achieved))
+        print('         Goal position: ' + str((round(self.goal.x,3), round(self.goal.y,3))))
+
+        print('     Target')
+        print('         Target center: ' + str(self.target_center))
+        print('         Target near: ' + str(self.flag_target_close))
+        print('         Target position: ' + str((round(self.target.x,3), round(self.target.y,3))))
+
+        print('     Threat')
+        print('         Threat center: ' + str(self.threat_center))
+        print('         Threat near: ' + str(self.flag_threat_close))
+        print('         Threat position: ' + str((round(self.threat.x,3), round(self.threat.y,3))))
+
+        print('     Walls')
+        print('         [RIGHT FRONT LEFT BACK]: ' + str(self.walls))
+
+        print('\n')
+        print('Velocity:')
+        print('     Linear: ' + str(round(self.speed,3)))
+        print('     Angular: ' + str(round(self.angle,3)))
+
+        print('\n')
+        print('Arms position:')
+        print('     Right: ' + str(self.right_arm_position))
+        print('     Left: ' + str(self.left_arm_position))
+
+    def SensorsCallback(self, detection_info):
+
+        # print('The detection info is: ')
+        # print(detection_info)
+        # print('\n\n')
+
+        # Update message variables --------------------------------------------------
+        # Goal
+        self.flag_goal_active = detection_info.flag_goal_active
+        self.flag_goal_achieved = detection_info.flag_goal_achieved
+        self.goal = detection_info.goal
+
+        # Target
+        self.flag_target_close = detection_info.flag_target_close
+        self.target_center = detection_info.target_center
+        self.target_area = detection_info.target_area
+        self.target = detection_info.target
+
+        # Threat
+        self.flag_threat_close = detection_info.flag_threat_close
+        self.threat_center = detection_info.threat_center
+        self.threat_area = detection_info.threat_area
+        self.threat = detection_info.threat
+
+        # Walls
+        self.walls = detection_info.walls
+
+        # Define the state machine
+
+        if self.flag_target_close:
+            self.state = 'Catching near target'
+        elif self.flag_threat_close and self.threat_center == 0:
+            self.state = 'Escaping from near threat'
+        else:
+            if self.target_center == 0 and self.threat_center == 0:
+                self.state = 'Wondering'
+            elif (self.target_center != 0 and self.threat_center == 0) or (self.target_center != 0 and self.threat_center != 0 and self.target_area >= self.threat_area):
+                self.state = 'Following target'
+            elif self.target_center != 0 and self.threat_center != 0 and self.target_area <= self.threat_area:
+                self.state = 'Following target avoiding threat'
+            elif self.target_center == 0 and self.threat_center != 0:
+                self.state = 'Avoiding threat'
+
+        if self.flag_goal_active:
+            self.state = 'Following Goal'
 
     def LaserScanPointsReceived(self, marker_array):
 
@@ -89,7 +200,7 @@ class Driver():
         self.flag_near_wall = False
         self.near_wall_coords = (0, 0)
 
-        print('\n\nNew measure: ')
+        # print('\n\nNew measure: ')
 
         if len(marker_array.markers) > 0:
             # print(marker_array.markers[0].points[0])
@@ -99,107 +210,156 @@ class Driver():
                 if len(marker_array.markers[i].points) <= 2:
                     pass
                 elif len(marker_array.markers[i].points) >= 15:
-                    print('marker ' + str(marker_array.markers[i].id) + ' is a wall')
+                    # print('marker ' + str(marker_array.markers[i].id) + ' is a wall')
+                    pass
                 else:
-                    print('marker ' + str(marker_array.markers[i].id) + ' is a body')
+                    # print('marker ' + str(marker_array.markers[i].id) + ' is a body')
                     self.flag_near_body = True
 
-
-    def Driver(self, target_position, target_area, threat_position, threat_area, near_body):
+    def Driver(self):
 
 
         lin = self.speed
         ang = self.angle
+        target_position = self.target_center
+        target_area = self.target_area
+        threat_position = self.threat_center
+        threat_area = self.threat_area
 
         max_linear = 2
         min_linear = 0.25
         error_ang = 0
         error_ang_prev = 0
-        kp = 0.0005
-        kd = 0.00025
+        kp = 0.001
+        kd = 0.000125
 
-        # -------------------------------------
-        # RUNAWAY MODE
-        # -------------------------------------
+        if self.state == 'Wondering':
 
-        # if near_body and target_position == 0 and threat_position == 0:
-        #     lin = 2.5
-        # if not near_body:
-        #     lin = 0
+            # lin = 0
+            # if self.last_target_position_left:
+            #     ang = 0.7
+            # else:
+            #     ang = -0.7
+            #
+            # if self.walls[3]:
+            #     ang = -ang
+            #
+            #     if not self.previous_front_wall:
+            #         self.last_target_position_left = not self.last_target_position_left         # In order to change the rotation when a wall is in front, so don't waste tine
+            #
+            # self.previous_front_wall = copy.deepcopy(self.walls[3])
 
+            Z0 = self.walls[0]
+            Z1 = self.walls[1]
+            Z2 = self.walls[2]
+            Z3 = self.walls[3]
 
-        # -------------------------------------
-        # ATTACK MODE
-        # -------------------------------------
-
-        if target_position == 0:            # There is no target, so continue rotating until you get a target
-            lin = 0
-            if self.last_target_position_left == True:      # If the last target was at the right, then rotate right. Otherwise, rotate left.
-                ang = 1
+            if not Z1:
+                lin = 0.5
+                ang = 0
             else:
-                ang = -1
+                lin = 0
+                if Z0:
+                    ang = 0.5
+                elif Z2:
+                    ang = -0.5
+                else:
+                    choises = [-1, 1]
+                    k = random.choice(choises)
+                    k = 1
+                    ang = k*0.5
 
-        else:
-            lin += 0.025
 
-            if lin > max_linear:            # Saturate velocity
+        if self.state == 'Following target':
+
+            lin += 0.02
+
+            if lin > max_linear:  # Saturate linear velocity
                 lin = max_linear
             if lin < min_linear:
                 lin = min_linear
 
             error_ang = (600 - target_position)
-            if abs(error_ang) > 585:        # Reduction of rotational value when target founded
-                lin = 0
-                # if abs(ang) > 0.4:
-                if error_ang > 0:
-                    ang = 0.25
-                else:
-                    ang = -0.25
-            else:
-                ang = kp*error_ang + kd*(error_ang - error_ang_prev)/2      # Angular value PD controlled
+            ang = kp * error_ang + kd * (error_ang - error_ang_prev) / 2    # Angular value PD controlled - Better results agains P controller
 
-            if target_position <= 600:           # Remember the last side where the target was
+            if target_position <= 600:  # Remember the last side where the target was
                 self.last_target_position_left = True
             else:
                 self.last_target_position_left = False
 
-        # -------------------------------------
-        # BREATHING MODE
-        # -------------------------------------
+        if self.state == 'Catching near target':
+
+            x = self.target.x
+            y = self.target.y
+
+            distance_to_goal = sqrt(x ** 2 + y ** 2) / 2.5
+
+            ang = atan2(y, x)
+
+            G = 1
+            m = 0.5
+
+            lin = G*m/(distance_to_goal + 0.001)  # Gravitational Proportional Controller
+
+        if self.state == 'Following target avoiding threat':
+
+            lin += 0.02
+
+            if lin > max_linear:  # Saturate linear velocity
+                lin = max_linear
+            if lin < min_linear:
+                lin = min_linear
+
+            if threat_position <= 600:
+                error_ang = (600 - target_position) - threat_position/2
+            else:
+                error_ang = (600 - target_position) + threat_position/2
+
+            ang = kp * error_ang + kd * (error_ang - error_ang_prev) / 2  # Angular value PD controlled - Better results agains P controller
+
+            if target_position <= 600:  # Remember the last side where the target was
+                self.last_target_position_left = True
+            else:
+                self.last_target_position_left = False
+
+        if self.state == 'Avoiding threat':
+
+            lin += 0.02
+
+            if lin > max_linear:  # Saturate linear velocity
+                lin = max_linear
+            if lin < min_linear:
+                lin = min_linear
+
+            # if threat_position <= 600:
+            error_ang = (300 - threat_position)
+            # else:
+            #     error_ang = (600 - target_position) + threat_position / 2
+
+            ang = kp * error_ang + kd * (error_ang - error_ang_prev) / 2  # Angular value PD controlled - Better results agains P controller
+
+        if self.state == 'Following Goal':
+
+            x = self.goal.x
+            y = self.goal.y
+
+            distance_to_goal = sqrt(x ** 2 + y ** 2)/2.5
+
+            ang = atan2(y,x)
+            lin = 0.5
+
+            # lin = 0.5/(distance_to_goal + 0.001)          # Gravitational Proporcional Controller
 
 
-        # if not self.flag_near_wall:
-        #     lin = 1
-        #     ang = 0
-        # else:
-        #     lin = 0
-        #     # if self.near_wall_coords[0] < -0.1:
-        #     if self.near_wall_coords[1] > 0:
-        #         ang = -0.5
-        #     else:
-        #         ang = 0.5
-
-
-
-
-        print('My velocity is: lin = ' + str(lin) + ' rot = ' + str(ang))
         self.speed = lin
         self.angle = ang
 
-
     def SendCommandCallback(self, event):
-        # print('Sending Twist Command!')
 
-        # if self.target_position != 0:
-        #
-        #     self.speed = 1
-        #     self.angle = (600 - self.target_position)*0.005
-        # else:
-        #     self.speed = 0
-        #     self.angle = 0.5
+        if self.visualize == 'true':
+            self.Interface()
 
-        self.Driver(self.target_position, self.target_area, self.threat_position, self.threat_area, self.flag_near_body)
-
+        self.Driver()
 
         twist = Twist()
         twist.linear.x = self.speed

@@ -4,8 +4,9 @@
   <xacro:arg name="camera_visual" default="false"/>
   <xacro:arg name="imu_visual"    default="false"/>
 
+  <!-- +++++++++++++++++++++++++++++++++++++++ Including URDF references +++++++++++++++++++++++++++++++++++++++ -->
+
   <gazebo reference="base_link">
-<!--    <material>Gazebo/DarkGrey</material>-->
     <material>Gazebo/${player_color}</material>
   </gazebo>
 
@@ -13,16 +14,16 @@
     <material>Gazebo/${player_color}</material>
   </gazebo>
   <gazebo reference="left_arm">
-    <material>Gazebo/${player_color}</material>
+      <material>Gazebo/Gray</material>
   </gazebo>
     <gazebo reference="left_arm_base">
-    <material>Gazebo/${player_color}</material>
+      <material>Gazebo/Gray</material>
   </gazebo>
     <gazebo reference="right_arm">
-    <material>Gazebo/${player_color}</material>
+      <material>Gazebo/Gray</material>
   </gazebo>
     <gazebo reference="right_arm_base">
-    <material>Gazebo/${player_color}</material>
+      <material>Gazebo/Gray</material>
   </gazebo>
 
   <gazebo reference="wheel_left_link">
@@ -188,7 +189,6 @@
           <image>
 <!--              <width>640</width>-->
 <!--              <height>480</height>-->
-
               <width>1200</width>
               <height>380</height>
               <format>R8G8B8</format>

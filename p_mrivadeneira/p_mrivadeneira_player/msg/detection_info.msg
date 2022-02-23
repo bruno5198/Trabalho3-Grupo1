@@ -1,0 +1,12 @@
+bool flag_goal_active
+bool flag_goal_achieved
+geometry_msgs/Point goal
+bool flag_target_close
+uint32 target_center
+uint32 target_area
+geometry_msgs/Point target
+bool flag_threat_close
+uint32 threat_center
+uint32 threat_area
+geometry_msgs/Point threat
+bool[] walls

@@ -1,0 +1,11 @@
+<launch>
+
+    <arg name="player_name" default="p_mrivadeneira"/>
+
+    <group ns="$(arg player_name)">
+<!--         Launch Teleop - Remap topic to player topic -->
+        <node pkg="p_mrivadeneira_bringup" type="myteleop.py" name="myteleop" output="screen">
+            <remap from="cmd_vel" to="/$(arg player_name)/cmd_vel"/>
+        </node>
+    </group>
+</launch>

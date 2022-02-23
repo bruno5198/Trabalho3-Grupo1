@@ -1,0 +1,64 @@
+ if len(marker_array.markers) > 0:
+    # print(marker_array.markers[0].points[0])
+    # print('\n\n\n\n')
+
+    for i in range(0, len(marker_array.markers)):
+        if len(marker_array.markers[i].points) <= 4:
+            pass
+        elif len(marker_array.markers[i].points) >= 15:
+            if marker_array.markers[i].points[0].x == inf or marker_array.markers[i].points[0].x == -inf or marker_array.markers[i].points[0].y == inf or marker_array.markers[i].points[0].y == -inf:
+                pass
+            else:
+                # print('marker ' + str(marker_array.markers[i].id) + ' is a wall')
+                # print(marker_array.markers[i])
+                dist_min = 10
+
+                x_max = marker_array.markers[i].points[0].x
+                x_min = marker_array.markers[i].points[0].x
+                y_max = marker_array.markers[i].points[0].y
+                y_min = marker_array.markers[i].points[0].y
+
+                for k in range(1, len(marker_array.markers[i].points)):
+                    x_new = marker_array.markers[i].points[k].x
+                    y_new = marker_array.markers[i].points[k].y
+                    dist = sqrt(x_new**2 + y_new**2)
+
+                    if dist < dist_min:
+                        dist_min = round(dist, 3)
+                        x_min_dist = round(x_new, 3)
+                        y_min_dist = round(y_new, 3)
+
+                    if x_new < x_min:
+                        x_min = x_new
+                    if x_new > x_max:
+                        x_max = x_new
+
+                    if y_new < y_min:
+                        y_min = y_new
+                    if y_new > y_max:
+                        y_max = y_new
+
+                    dx = abs(x_max - x_min)
+                    dy = abs(y_max - y_min)
+
+                if dist_min <= 1 and x_min_dist > 0:
+                    self.flag_near_wall = True
+                    self.near_wall_coords = (x_min_dist, y_min_dist)
+                    print('There is a near wall!!')
+                    print('dx = ' + str(round(dx,3)) + ' dy = ' + str(round(dy,3)))
+
+
+                if dx > 0.75 and dy < 0.3:
+                    print('marker ' + str(marker_array.markers[i].id) + ' is a lateral wall')
+                elif dx < 0.3 and dy > 0.75:
+                    if marker_array.markers[i].points[0].x > 0:
+                        print('marker ' + str(marker_array.markers[i].id) + ' is a frontal wall')
+                    else:
+                        print('marker ' + str(marker_array.markers[i].id) + ' is a posterior wall')
+                else:
+                    print('marker ' + str(marker_array.markers[i].id) + ' is both lateral and front wall')
+
+                print('The closest point is at = ' + str(dist_min) + ' and its coordinates are = ' + str((x_min_dist, y_min_dist)))
+        else:
+            print('marker ' + str(marker_array.markers[i].id) + ' is a body')
+            self.flag_near_body = True

@@ -1,9 +1,0 @@
-<launch>
-
-    <arg name="player_name" default="p_mrivadeneira"/>
-
-    <!-- Launch rviz, loading configuration file -->
-<!--     <node name="rviz" pkg="rviz" type="rviz" args="- -display-config $(find p_mrivadeneira_bringup)/config/visualize.rviz" required="false"/> -->
-
-    <node name="rviz" pkg="rviz" type="rviz" args="--display-config $(find p_mrivadeneira_bringup)/config/$(arg player_name).rviz" required="false"/>
-</launch>

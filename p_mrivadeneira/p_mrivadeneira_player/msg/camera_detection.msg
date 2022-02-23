@@ -1,4 +1,0 @@
-uint32 target_center
-uint32 target_area
-uint32 threat_center
-uint32 threat_area

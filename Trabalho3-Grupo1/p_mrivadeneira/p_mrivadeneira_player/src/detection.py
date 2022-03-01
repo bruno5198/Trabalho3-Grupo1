@@ -372,48 +372,51 @@ def Drawing(centroid_target, bounding_box_target, centroid_threat, bounding_box_
     if markers_copy is None:
         pass
     else:
-        if len(markers_copy.markers) > 0:
+        try:
+            if len(markers_copy.markers) > 0:
 
-            for i in range(0, len(markers_copy.markers)):
-                for j in range(0, len(markers_copy.markers[i].points)):
+                for i in range(0, len(markers_copy.markers)):
+                    for j in range(0, len(markers_copy.markers[i].points)):
 
-                    marker_new.pose.position.x = markers_copy.markers[i].points[j].x
-                    marker_new.pose.position.y = markers_copy.markers[i].points[j].y
-                    marker_new.pose.position.z = markers_copy.markers[i].points[j].z
+                        marker_new.pose.position.x = markers_copy.markers[i].points[j].x
+                        marker_new.pose.position.y = markers_copy.markers[i].points[j].y
+                        marker_new.pose.position.z = markers_copy.markers[i].points[j].z
 
-                    marker_transformed = tf_buffer.transform(marker_new, target_frame, rospy.Duration(1))  # Transform the markers the the camera's coordinates system
+                        marker_transformed = tf_buffer.transform(marker_new, target_frame, rospy.Duration(1))  # Transform the markers the the camera's coordinates system
 
-                    pix = cam.project3dToPixel((marker_transformed.pose.position.x, marker_transformed.pose.position.y, marker_transformed.pose.position.z))
+                        pix = cam.project3dToPixel((marker_transformed.pose.position.x, marker_transformed.pose.position.y, marker_transformed.pose.position.z))
 
-                    x_image = int(round(pix[0]))
-                    y_image = int(round(pix[1]))
+                        x_image = int(round(pix[0]))
+                        y_image = int(round(pix[1]))
 
-                    if x_image < 1200 and x_image > 0 and y_image < 380 and y_image > 0 and marker_new.pose.position.x > 0:  # Just consider the pixel inside the camera space
-                        image = cv2.circle(image, (x_image, y_image), 5, (239, 184, 16), -1)
+                        if x_image < 1200 and x_image > 0 and y_image < 380 and y_image > 0 and marker_new.pose.position.x > 0:  # Just consider the pixel inside the camera space
+                            image = cv2.circle(image, (x_image, y_image), 5, (239, 184, 16), -1)
 
-                        # Closest to target
-                        if centroid_target != (0, 0):
-                            dist_to_target = sqrt((x_image - centroid_target[0])**2 + (y_image - centroid_target[1])**2)
-                            if dist_to_target < dist_to_target_closest:
-                                dist_to_target_closest = dist_to_target
+                            # Closest to target
+                            if centroid_target != (0, 0):
+                                dist_to_target = sqrt((x_image - centroid_target[0])**2 + (y_image - centroid_target[1])**2)
+                                if dist_to_target < dist_to_target_closest:
+                                    dist_to_target_closest = dist_to_target
 
-                                target_x = marker_new.pose.position.x
-                                target_y = marker_new.pose.position.y
-                                target_z = marker_new.pose.position.z
-                        else:
-                            dist_to_target_closest = 10000
-                        # Closest to target
-                        if centroid_threat != (0, 0):
-                            dist_to_threat = sqrt((x_image - centroid_threat[0]) ** 2 + (y_image - centroid_threat[1]) ** 2)
-                            if dist_to_threat < dist_to_threat_closest:
-                                dist_to_threat_closest = dist_to_threat
+                                    target_x = marker_new.pose.position.x
+                                    target_y = marker_new.pose.position.y
+                                    target_z = marker_new.pose.position.z
+                            else:
+                                dist_to_target_closest = 10000
+                            # Closest to target
+                            if centroid_threat != (0, 0):
+                                dist_to_threat = sqrt((x_image - centroid_threat[0]) ** 2 + (y_image - centroid_threat[1]) ** 2)
+                                if dist_to_threat < dist_to_threat_closest:
+                                    dist_to_threat_closest = dist_to_threat
 
-                                threat_x = marker_new.pose.position.x
-                                threat_y = marker_new.pose.position.y
-                                threat_z = marker_new.pose.position.z
+                                    threat_x = marker_new.pose.position.x
+                                    threat_y = marker_new.pose.position.y
+                                    threat_z = marker_new.pose.position.z
 
-                        else:
-                            dist_to_threat_closest = 10000
+                            else:
+                                dist_to_threat_closest = 10000
+        except:
+            pass
 
         # print(dist_to_target_closest)
         # print(dist_to_threat_closest)
@@ -562,6 +565,7 @@ def main():
     global flag_goal_achieved
     global flag_target_close
     global flag_threat_close
+    global flag_near_body
     global starting_time
     global area_target
     global area_threat
@@ -649,6 +653,7 @@ def main():
     flag_goal_active = False
     flag_target_close = False
     flag_threat_close = False
+    flag_near_body = False
 
     starting_time = time.perf_counter()
 

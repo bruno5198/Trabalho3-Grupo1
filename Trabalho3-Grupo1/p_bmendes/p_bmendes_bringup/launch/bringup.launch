@@ -6,7 +6,8 @@
     <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
     <arg name="player_name" default="p_bmendes"/>   # To set player name.
     <arg name="player_color" default="Red"/>        # To set player color.
-    <arg name="visualize" default="True"/>          # To set if we want to see rviz or not.
+    <arg name="visualize" default="true"/>          # To set if we want to see rviz or not.
+    <arg name="camera_visualize" default="true"/>
     <arg name="x_pos" default="0.0"/>
     <arg name="y_pos" default="-1.5"/>
     <arg name="z_pos" default="0.0"/>
@@ -34,6 +35,6 @@
     </group>
 
     <!-- Run driver.py script to each player -->
-    <node pkg="p_bmendes_player" type="driver.py" name="$(arg player_name)" output="screen"> </node>
+    <node pkg="p_bmendes_player" type="driver.py" name="$(arg player_name)" output="screen" args="$(arg camera_visualize)"> </node>
 
 </launch>

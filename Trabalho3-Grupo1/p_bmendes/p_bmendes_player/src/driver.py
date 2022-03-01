@@ -120,7 +120,7 @@ class Driver():
 
         # ---------------- Print player's team, prey's and hunter's information ----------------
         self.robot_state = 'My name is ' + str(self.name) + ". I am team " + str(self.my_team) + ". I am hunting " + str(hunter_team) + " and feeling from " + str(prey_team)
-        rospy.loginfo('My name is ' + str(self.name) + ". I am team " + str(self.my_team) + ". I am hunting " + str(hunter_team) + " and feeling from " + str(prey_team))
+        # rospy.loginfo('My name is ' + str(self.name) + ". I am team " + str(self.my_team) + ". I am hunting " + str(hunter_team) + " and feeling from " + str(prey_team))
         # --------------------------------------------------------------------------------------
 
 
@@ -137,21 +137,21 @@ class Driver():
         self.robot_prey_state = 'Prey undetected!'
         if mass_center_prey is None:
             self.prey_detected = False
-            rospy.loginfo('Prey undetected!')
+            # rospy.loginfo('Prey undetected!')
         else:
             self.preyPosition = mass_center_prey[0] - (cv_image.shape[1] / 2)
             self.prey_size = np.sum(prey_mask == 255)
             if self.prey_size != 0:
                 if self.preyPosition > 0:
-                    rospy.loginfo('Prey detected at right side!')
+                    # rospy.loginfo('Prey detected at right side!')
                     self.last_prey_detected = 'Right'
                 elif self.preyPosition < 0:
-                    rospy.loginfo('Prey detected at left side!')
+                    # rospy.loginfo('Prey detected at left side!')
                     self.last_prey_detected = 'Left'
                 self.prey_detected = True
                 self.robot_prey_state = 'Prey detected!'
             else:
-                rospy.loginfo('Prey undetected!')
+                # rospy.loginfo('Prey undetected!')
                 self.prey_detected = False
         # --------------------------------------------------------------------------------------
 
@@ -159,7 +159,7 @@ class Driver():
         self.robot_hunter_state = 'Hunter undetected!'
         if mass_center_hunter is None:
             self.hunter_detected = False
-            rospy.loginfo('Hunter undetected!')
+            # rospy.loginfo('Hunter undetected!')
         else:
             self.hunterPosition = mass_center_hunter[0] - (cv_image.shape[1] / 2)
             self.hunter_size = np.sum(hunter_mask == 255)
@@ -168,10 +168,10 @@ class Driver():
                     self.robot_hunter_state = 'Hunter detected far away!'
                 else:
                     self.robot_hunter_state = 'Hunter detected!'
-                rospy.loginfo('Hunter detected!')
+                # rospy.loginfo('Hunter detected!')
                 self.hunter_detected = True
             else:
-                rospy.loginfo('Hunter undetected!')
+                # rospy.loginfo('Hunter undetected!')
                 self.hunter_detected = False
         # --------------------------------------------------------------------------------------
 
@@ -181,7 +181,7 @@ class Driver():
         # ---------------------------------- Hunter detection ----------------------------------
         if back_mass_center_hunter is None:
             self.back_hunter_detected = False
-            rospy.loginfo('Hunter undetected behind robot!')
+            # rospy.loginfo('Hunter undetected behind robot!')
         else:
             self.back_hunterPosition = back_mass_center_hunter[0] - (cv_back_image.shape[1] / 2)
             if np.sum(back_hunter_mask == 255) != 0:
@@ -189,7 +189,7 @@ class Driver():
                     self.robot_hunter_state = 'Hunter detected behind robot far away!'
                 elif self.closer_body_dist <= 3.0:
                     self.robot_hunter_state = 'Hunter detected behind robot!'
-                    rospy.loginfo('Hunter detected behind robot!')
+                    # rospy.loginfo('Hunter detected behind robot!')
                     self.back_hunter_detected = True
             else:
                 self.back_hunter_detected = False
@@ -216,8 +216,9 @@ class Driver():
         horizontalAppendedImg = cv2.putText(horizontalAppendedImg, text, coordinates, font, fontScale, fontColor, thickness, lineType)
         # ...........................................................................
 
-        cv2.imshow('Player ' + str(self.name) + ' (Front and Back camera image)', horizontalAppendedImg)
-        cv2.waitKey(3)
+        if visualize == "true":
+            cv2.imshow('Player ' + str(self.name) + ' (Front and Back camera image)', horizontalAppendedImg)
+            cv2.waitKey(3)
         # --------------------------------------------------------------------------------------
 
     def drawingFunction(self, cv_image, mask, drawing_color):
@@ -521,7 +522,7 @@ class Driver():
             state_description = 'Unknown case'
 
         time.sleep(0.3)
-        rospy.loginfo(state_description)
+        # rospy.loginfo(state_description)
         # --------------------------------------------------------------------------------------
 
     def catchPrey(self, minimum_speed=0.1, maximum_speed=1):
@@ -612,8 +613,13 @@ class Driver():
 
 
 def main():
+    global visualize
+
     # rospy.init_node('p_bmendes_driver', anonymous=False)
     rospy.init_node('red1', anonymous=False)
+
+    args = rospy.myargv(argv=sys.argv)
+    visualize = args[1]
 
     driver = Driver()
     rospy.spin()

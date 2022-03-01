@@ -19,8 +19,6 @@ class Driver():
         self.name = rospy.get_name()
         self.name = self.name.strip('/')        # Remove initial '/'
 
-        self.TeamsDefinition(self.name)
-
         # Command Velocity
         self.publisher_command = rospy.Publisher('/' + self.name + '/cmd_vel', Twist, queue_size=1)
 
@@ -82,6 +80,8 @@ class Driver():
         except:
             self.visualize = "false"
 
+        self.TeamsDefinition(self.name)
+
     def left_arm(self, pos):
 
         self.left_arm_position = pos
@@ -108,9 +108,11 @@ class Driver():
             preys = rospy.get_param(self.prey_team + '_players')
             hunts = rospy.get_param(self.hunter_team + '_players')
 
-            print('My name is: ' + self.name + ". I am team " + self.my_team + '. I am hunting ' + str(preys) + ' and fleeing from ' + str(hunts))
+            if self.visualize == 'true':
+                print('My name is: ' + self.name + ". I am team " + self.my_team + '. I am hunting ' + str(preys) + ' and fleeing from ' + str(hunts))
         except:
-            print("I can't understand the color of my team. I'm gonna die alone. I'm sad. :(")
+            if self.visualize == 'true':
+                print("I can't understand the color of my team. I'm gonna die alone. I'm sad. :(")
 
     def Interface(self):
 

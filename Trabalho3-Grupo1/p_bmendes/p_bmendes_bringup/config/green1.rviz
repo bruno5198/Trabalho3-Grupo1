@@ -3,14 +3,7 @@ Panels:
     Help Height: 0
     Name: Displays
     Property Tree Widget:
-      Expanded:
-        - /Global Options1
-        - /Status1
-        - /Image1
-        - /Back_Image1
-        - /LaserScan1
-        - /RobotModel1
-        - /Pose1
+      Expanded: ~
       Splitter Ratio: 0.47652581334114075
     Tree Height: 399
   - Class: rviz/Selection
@@ -233,7 +226,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 10.5936861038208
+      Distance: 2.915910482406616
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -241,17 +234,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0.7065249085426331
-        Y: 0.11043151468038559
-        Z: 0.6378553509712219
+        X: 1.8745994567871094
+        Y: -0.1599719524383545
+        Z: 2.422495126724243
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.6103979349136353
+      Pitch: 0.5853980779647827
       Target Frame: <Fixed Frame>
-      Yaw: 3.5772268772125244
+      Yaw: 3.077218770980835
     Saved: ~
 Window Geometry:
   Back_Image:

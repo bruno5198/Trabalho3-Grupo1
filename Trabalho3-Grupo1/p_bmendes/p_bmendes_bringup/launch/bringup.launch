@@ -33,7 +33,7 @@
         </group>
     </group>
 
-<!--    &lt;!&ndash; Run driver.py script to each player &ndash;&gt;-->
-<!--    <node pkg="p_bmendes_player" type="driver.py" name="$(arg player_name)" output="screen"> </node>-->
+    <!-- Run driver.py script to each player -->
+    <node pkg="p_bmendes_player" type="driver.py" name="$(arg player_name)" output="screen"> </node>
 
 </launch>

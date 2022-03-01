@@ -25,8 +25,8 @@
     </include>
 
     <!--Part3: Driver-->
-<!--     <node pkg="p_mrivadeneira_player" type="driver.py" name="$(arg player_name)" output="screen" args="$(arg visualize)">-->
-<!--     </node>-->
+     <node pkg="p_mrivadeneira_player" type="driver.py" name="$(arg player_name)" output="screen" args="$(arg visualize)">
+     </node>
 
     <!--Part 4: Detection-->
     <include file="$(find p_mrivadeneira_bringup)/launch/detection.launch">

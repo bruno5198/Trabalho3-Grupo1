@@ -154,7 +154,7 @@
 
 <!-- BLUE TEAM -->
 
-    <!--    Bring up 2 blue robot-->
+    <!--    Bring up 1 blue robot-->
     <group if="$(eval blues  == 1)">
         <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
             <arg name="player_name" default="blue1"/>
@@ -167,7 +167,7 @@
         </include>
     </group>
 
-    <!--    Bring up 1 blue robot-->
+    <!--    Bring up 2 blue robot-->
     <group if="$(eval blues  == 2)">
         <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
             <arg name="player_name" default="blue1"/>

@@ -1,0 +1,41 @@
+<launch>
+    <!-- Import game parameters -->
+    <rosparam command="load" file="$(find p_mrivadeneira_bringup)/params/game.yaml"/>
+
+    <!--    Input Arguments-->
+    <arg name="reds" default="1"/>
+    <arg name="greens" default="0"/>
+    <arg name="blues" default="0"/>
+
+    <!--     Wrold in Gazebo -->
+    <!--     <include file="$(find p_mrivadeneira_bringup)/launch/gazebo.launch"> -->
+    <!--            <arg name="arena" default="1"/>-->
+    <!--     </include> -->
+
+    <!-- RED TEAM -->
+
+    <!--    Bring up 1 red robot-->
+    <include file="$(find p_bmendes_bringup)/launch/bringup.launch">
+        <arg name="player_name" value="green1"/>      # To set player name.
+        <arg name="player_color" value="Green"/>      # To set player color.
+        <arg name="x_pos" value="0.0"/>
+        <arg name="y_pos" value="0.0"/>
+        <arg name="z_pos" value="0.0"/>
+    </include>
+
+    <!-- BLUE TEAM -->
+
+    <!--    Bring up  blue robot-->
+    <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
+        <arg name="player_name" default="blue1"/>
+        <arg name="player_color" default="Blue"/>
+        <arg name="visualize" default="false"/>
+        <arg name="camera_visualize" default="true"/>
+        <arg name="x_pos" default="0.0"/>
+        <arg name="y_pos" default="-1.5"/>
+        <arg name="z_pos" default="0.0"/>
+    </include>
+
+
+
+</launch>

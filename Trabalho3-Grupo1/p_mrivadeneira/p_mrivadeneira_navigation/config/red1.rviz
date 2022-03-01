@@ -11,6 +11,7 @@ Panels:
         - /Local Map1/Polygon1
         - /Local Map1/Costmap1
         - /Local Map1/Planner1
+        - /Amcl Particles1
       Splitter Ratio: 0.5
     Tree Height: 577
   - Class: rviz/Selection
@@ -66,6 +67,11 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        antenna:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         base_footprint:
           Alpha: 1
           Show Axes: false
@@ -107,6 +113,46 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        left_arm:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_arm_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_arm_2_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_arm_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_arm:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_arm_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_arm_2_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_arm_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         wheel_left_link:
           Alpha: 1
           Show Axes: false
@@ -302,7 +348,7 @@ Visualization Manager:
       Axes Length: 0.30000001192092896
       Axes Radius: 0.009999999776482582
       Class: rviz/PoseArray
-      Color: 0; 192; 0
+      Color: 114; 159; 207
       Enabled: true
       Head Length: 0.07000000029802322
       Head Radius: 0.029999999329447746
@@ -335,7 +381,7 @@ Visualization Manager:
       Marker Topic: /red1/markers
       Name: MarkerArray
       Namespaces:
-        {}
+        my_namespace: true
       Queue Size: 100
       Value: true
   Enabled: true
@@ -361,7 +407,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: -1.8657962083816528
+      Angle: -1.555799126625061
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
@@ -371,10 +417,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 112.62841796875
+      Scale: 196.211181640625
       Target Frame: <Fixed Frame>
-      X: 3.5647506713867188
-      Y: 3.883024215698242
+      X: 4.761725425720215
+      Y: 3.601210594177246
     Saved: ~
 Window Geometry:
   Displays:

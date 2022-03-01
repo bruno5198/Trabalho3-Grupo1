@@ -1,0 +1,226 @@
+<launch>
+    <!-- Import game parameters -->
+    <rosparam command="load" file="$(find p_mrivadeneira_bringup)/params/game.yaml"/>
+
+<!--    Input Arguments-->
+    <arg name="reds" default="1"/>
+    <arg name="greens" default="0"/>
+    <arg name="blues" default="0"/>
+
+<!--     Wrold in Gazebo -->
+<!--     <include file="$(find p_mrivadeneira_bringup)/launch/gazebo.launch"> -->
+<!--            <arg name="arena" default="1"/>-->
+<!--     </include> -->
+
+<!-- RED TEAM -->
+
+<!--    Bring up 1 red robot-->
+    <group if="$(eval reds  == 1)">
+        <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
+            <arg name="player_name" default="red1"/>
+            <arg name="player_color" default="Red"/>
+            <arg name="visualize" default="true"/>
+            <arg name="camera_visualize" default="false"/>
+            <arg name="x_pos" default="6.0"/>
+            <arg name="y_pos" default="3.0"/>
+            <arg name="z_pos" default="0.0"/>
+        </include>
+    </group>
+
+    <!--    Bring up 2 red robot-->
+    <group if="$(eval reds  == 2)">
+        <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
+            <arg name="player_name" default="red1"/>
+            <arg name="player_color" default="Red"/>
+            <arg name="visualize" default="false"/>
+            <arg name="camera_visualize" default="false"/>
+            <arg name="x_pos" default="6.0"/>
+            <arg name="y_pos" default="3.0"/>
+            <arg name="z_pos" default="0.0"/>
+        </include>
+
+         <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
+             <arg name="player_name" default="red2"/>
+             <arg name="player_color" default="Red"/>
+             <arg name="visualize" default="false"/>
+             <arg name="camera_visualize" default="false"/>
+             <arg name="x_pos" default="1.0"/>
+             <arg name="y_pos" default="3.0"/>
+             <arg name="z_pos" default="0.0"/>
+         </include>
+    </group>
+
+    <!--    Bring up 3 red robot-->
+    <group if="$(eval reds  == 3)">
+        <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
+            <arg name="player_name" default="red1"/>
+            <arg name="player_color" default="Red"/>
+            <arg name="visualize" default="false"/>
+            <arg name="camera_visualize" default="false"/>
+            <arg name="x_pos" default="6.0"/>
+            <arg name="y_pos" default="3.0"/>
+            <arg name="z_pos" default="0.0"/>
+        </include>
+
+         <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
+             <arg name="player_name" default="red2"/>
+             <arg name="player_color" default="Red"/>
+             <arg name="visualize" default="false"/>
+             <arg name="camera_visualize" default="false"/>
+             <arg name="x_pos" default="1.0"/>
+             <arg name="y_pos" default="3.0"/>
+             <arg name="z_pos" default="0.0"/>
+         </include>
+
+         <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
+             <arg name="player_name" default="red3"/>
+             <arg name="player_color" default="Red"/>
+             <arg name="visualize" default="false"/>
+             <arg name="camera_visualize" default="false"/>
+             <arg name="x_pos" default="-1.0"/>
+             <arg name="y_pos" default="3.0"/>
+             <arg name="z_pos" default="0.0"/>
+         </include>
+    </group>
+
+<!-- GREEN TEAM -->
+
+    <!--    Bring up 1 green robot-->
+    <group if="$(eval greens  == 1)">
+        <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
+            <arg name="player_name" default="green1"/>
+            <arg name="player_color" default="Green"/>
+            <arg name="visualize" default="false"/>
+            <arg name="camera_visualize" default="false"/>
+            <arg name="x_pos" default="-6.0"/>
+            <arg name="y_pos" default="3.0"/>
+            <arg name="z_pos" default="0.0"/>
+        </include>
+    </group>
+
+    <!--    Bring up 2 green robot-->
+    <group if="$(eval greens  == 2)">
+        <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
+            <arg name="player_name" default="green1"/>
+            <arg name="player_color" default="Green"/>
+            <arg name="visualize" default="false"/>
+            <arg name="camera_visualize" default="false"/>
+            <arg name="x_pos" default="-6.0"/>
+            <arg name="y_pos" default="3.0"/>
+            <arg name="z_pos" default="0.0"/>
+        </include>
+         <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
+             <arg name="player_name" default="green2"/>
+             <arg name="player_color" default="Green"/>
+             <arg name="visualize" default="false"/>
+             <arg name="camera_visualize" default="false"/>
+             <arg name="x_pos" default="-3.0"/>
+             <arg name="y_pos" default="1.0"/>
+             <arg name="z_pos" default="0.0"/>
+         </include>
+    </group>
+
+    <!--    Bring up 3 green robot-->
+    <group if="$(eval greens  == 3)">
+        <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
+            <arg name="player_name" default="green1"/>
+            <arg name="player_color" default="Green"/>
+            <arg name="visualize" default="false"/>
+            <arg name="camera_visualize" default="false"/>
+            <arg name="x_pos" default="-6.0"/>
+            <arg name="y_pos" default="3.0"/>
+            <arg name="z_pos" default="0.0"/>
+        </include>
+         <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
+             <arg name="player_name" default="green2"/>
+             <arg name="player_color" default="Green"/>
+             <arg name="visualize" default="false"/>
+             <arg name="camera_visualize" default="false"/>
+             <arg name="x_pos" default="-3.0"/>
+             <arg name="y_pos" default="1.0"/>
+             <arg name="z_pos" default="0.0"/>
+         </include>
+         <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
+             <arg name="player_name" default="green3"/>
+             <arg name="player_color" default="Green"/>
+             <arg name="visualize" default="false"/>
+             <arg name="camera_visualize" default="false"/>
+             <arg name="x_pos" default="-3.0"/>
+             <arg name="y_pos" default="-1.0"/>
+             <arg name="z_pos" default="0.0"/>
+         </include>
+    </group>
+
+
+<!-- BLUE TEAM -->
+
+    <!--    Bring up 2 blue robot-->
+    <group if="$(eval blues  == 1)">
+        <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
+            <arg name="player_name" default="blue1"/>
+            <arg name="player_color" default="Blue"/>
+            <arg name="visualize" default="true"/>
+            <arg name="camera_visualize" default="false"/>
+            <arg name="x_pos" default="0.0"/>
+            <arg name="y_pos" default="-1.5"/>
+            <arg name="z_pos" default="0.0"/>
+        </include>
+    </group>
+
+    <!--    Bring up 1 blue robot-->
+    <group if="$(eval blues  == 2)">
+        <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
+            <arg name="player_name" default="blue1"/>
+            <arg name="player_color" default="Blue"/>
+            <arg name="visualize" default="true"/>
+            <arg name="camera_visualize" default="false"/>
+            <arg name="x_pos" default="0.0"/>
+            <arg name="y_pos" default="-1.5"/>
+            <arg name="z_pos" default="0.0"/>
+        </include>
+         <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
+             <arg name="player_name" default="blue2"/>
+             <arg name="player_color" default="Blue"/>
+             <arg name="visualize" default="false"/>
+             <arg name="camera_visualize" default="false"/>
+             <arg name="x_pos" default="-3.0"/>
+             <arg name="y_pos" default="-1.0"/>
+             <arg name="z_pos" default="0.0"/>
+         </include>
+    </group>
+
+    <!--    Bring up 3 blue robot-->
+    <group if="$(eval blues  == 3)">
+        <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
+            <arg name="player_name" default="blue1"/>
+            <arg name="player_color" default="Blue"/>
+            <arg name="visualize" default="true"/>
+            <arg name="camera_visualize" default="false"/>
+            <arg name="x_pos" default="0.0"/>
+            <arg name="y_pos" default="-1.5"/>
+            <arg name="z_pos" default="0.0"/>
+        </include>
+         <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
+             <arg name="player_name" default="blue2"/>
+             <arg name="player_color" default="Blue"/>
+             <arg name="visualize" default="false"/>
+             <arg name="camera_visualize" default="false"/>
+             <arg name="x_pos" default="-3.0"/>
+             <arg name="y_pos" default="-1.0"/>
+             <arg name="z_pos" default="0.0"/>
+         </include>
+         <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
+             <arg name="player_name" default="blue3"/>
+             <arg name="player_color" default="Blue"/>
+             <arg name="visualize" default="true"/>
+             <arg name="camera_visualize" default="false"/>
+             <arg name="x_pos" default="-3.0"/>
+             <arg name="y_pos" default="-5.0"/>
+             <arg name="z_pos" default="0.0"/>
+         </include>
+    </group>
+
+    <!--Load set players name node-->
+<!--    <node name="set_players_names" pkg="th_referee" type="set_player_names" output="screen"/>-->
+
+</launch>

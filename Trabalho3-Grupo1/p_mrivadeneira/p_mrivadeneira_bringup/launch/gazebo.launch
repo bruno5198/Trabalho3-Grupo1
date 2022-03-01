@@ -1,0 +1,22 @@
+<launch>
+
+    <!--    Defining the arena-->
+    <arg name="arena" default="1"/>
+    <arg name="map_file" default="$(find p_mrivadeneira_description)/maps/map.yaml"/>
+
+
+    <!--Create world on Gazebo.-->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find th_description)/worlds/th_arena_$(arg arena).world"/>      <!-- world_name depends on arena arg -->
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="true"/>
+        <arg name="headless" value="false"/>
+        <arg name="debug" value="false"/>
+    </include>
+
+    <!-- Map server -->
+<!--    <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)">-->
+<!--    </node>-->
+
+</launch>

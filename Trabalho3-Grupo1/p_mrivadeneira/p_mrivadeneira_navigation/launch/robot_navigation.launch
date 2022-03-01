@@ -1,0 +1,54 @@
+<launch>
+  <!-- Arguments -->
+  <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
+  <arg name="open_rviz" default="true"/>
+  <arg name="move_forward_only" default="false"/>
+  <arg name="player_name" default="blue1"/>
+  <arg name="player_color" default="Blue"/>
+  <arg name="arena" default="1"/>
+  <arg name="gmapping" default="false"/>
+  <arg name="map_file" default="$(find p_mrivadeneira_description)/maps/$(arg arena)/map.yaml"/>
+  <arg name="initial_pose_x" default="6.0"/>
+  <arg name="initial_pose_y" default="3.0"/>
+  <arg name="initial_pose_z" default="0.0"/>
+
+
+  <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
+    <arg name="player_name" default="$(arg player_name)"/>
+    <arg name="player_color" default="$(arg player_color)"/>
+    <arg name="visualize" default="false"/>
+    <arg name="camera_visualize" default="false"/>
+    <arg name="x_pos" default="6.0"/>
+    <arg name="y_pos" default="3.0"/>
+    <arg name="z_pos" default="0.0"/>
+    <arg name="gmapping" default="$(arg gmapping)"/>
+  </include>
+
+      <!-- Map server -->
+  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)">
+  </node>
+
+              <!-- AMCL -->
+    <include file="$(find p_mrivadeneira_navigation)/launch/amcl.launch">
+      <arg name="initial_pose_x" value="$(arg initial_pose_x)"/>
+      <arg name="initial_pose_y" value="$(arg initial_pose_y)"/>
+      <arg name="player_name" default="$(arg player_name)"/>
+    </include>
+
+  <group ns="$(arg player_name)">
+    <!-- move_base -->
+    <include file="$(find p_mrivadeneira_navigation)/launch/move_base.launch">
+      <arg name="model" value="$(arg model)" />
+      <arg name="move_forward_only" value="$(arg move_forward_only)"/>
+      <arg name="player_name" default="$(arg player_name)"/>
+    </include>
+  </group>
+
+    <!-- rviz -->
+    <group if="$(arg open_rviz)">
+      <node pkg="rviz" type="rviz" name="rviz" required="true"
+            args="-d $(find p_mrivadeneira_navigation)/config/$(arg player_name).rviz"/>
+    </group>
+
+
+</launch>

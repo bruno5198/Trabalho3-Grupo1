@@ -21,6 +21,7 @@
             <arg name="x_pos" value="0.0"/>
             <arg name="y_pos" value="0.0"/>
             <arg name="z_pos" value="0.0"/>
+            <arg name="yaw" default="1.57"/>
         </include>
 
         <!-- GREEN TEAM -->
@@ -32,6 +33,7 @@
             <arg name="x_pos" value="6.0"/>
             <arg name="y_pos" value="0.0"/>
             <arg name="z_pos" value="0.0"/>
+            <arg name="yaw" default="0.0"/>
         </include>
 
         <!-- BLUE TEAM -->
@@ -44,6 +46,7 @@
             <arg name="x_pos" default="-6.0"/>
             <arg name="y_pos" default="0.0"/>
             <arg name="z_pos" default="0.0"/>
+            <arg name="yaw" default="3.14"/>
         </include>
     </group>
 

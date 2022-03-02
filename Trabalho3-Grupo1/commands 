@@ -7,7 +7,7 @@ LAUNCHFILES
 roslaunch p_mrivadeneira_bringup bringup.launch player_name:=red1 player_color:=Red run_driver:=false visualize:=true camera_visualize:=true
 roslaunch p_mrivadeneira_bringup game_bringup.launch reds:=1 blues:=1 greens:=1
 
-roslaunch p_bmendes_bringup bringup.launch player_name:=red1 player_color:=Red
+roslaunch p_bmendes_bringup bringup.launch player_name:=red1 player_color:=Red camera_visualize:=true
 roslaunch p_bmendes_bringup game_bringup.launch
 
 roslaunch p_mrivadeneira_bringup visualize.launch player_name:=red1
@@ -19,5 +19,16 @@ roslaunch p_mrivadeneira_bringup myteleop player_name:=red1
 NODES
 
 rosrun p_mrivadeneira_player driver.py __name:=red1 true true
-rosrun p_bmendes_bringup driver.py __name:=red1
+rosrun p_bmendes_player driver.py __name:=red1 true
 
+
+
+FOLLOWING GOAL
+
+roslaunch p_mrivadeneira_navigation robot_navigation.launch arena:=1
+
+
+FINAL GAME
+
+roslaunch team_hunt_bringup team_hunt.launch teammates:=2
+rosrun th_referee th_referee

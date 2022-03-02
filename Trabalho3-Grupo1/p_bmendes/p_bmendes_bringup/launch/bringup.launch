@@ -11,6 +11,7 @@
     <arg name="x_pos" default="0.0"/>
     <arg name="y_pos" default="-1.5"/>
     <arg name="z_pos" default="0.0"/>
+    <arg name="yaw" default="0.0"/>
 
     <include file="$(find p_bmendes_bringup)/launch/gmapping.launch">
         <arg name="player_name" value="$(arg player_name)"/>
@@ -28,6 +29,7 @@
             <arg name="x_pos" value="$(arg x_pos)"/>
             <arg name="y_pos" value="$(arg y_pos)"/>
             <arg name="z_pos" value="$(arg z_pos)"/>
+            <arg name="yaw" default="0.0"/>
         </include>
 
         <group if = "$(arg visualize)">

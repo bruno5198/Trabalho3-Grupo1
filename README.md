@@ -165,7 +165,8 @@ RVIZ player ![image](https://user-images.githubusercontent.com/92629573/15627466
 RVIZ navigation ![image](https://user-images.githubusercontent.com/92629573/156274980-308b1a65-1ffe-42a0-83fd-ed353cabbd91.png)
 Gazebo game1 ![image](https://user-images.githubusercontent.com/92629573/156275430-50df78cb-fa7e-4bda-b016-aa5e642827fd.png)
 Gazebo game2 ![image](https://user-images.githubusercontent.com/92629573/156275727-e8af5cc0-56d8-452c-a019-1a274230e36e.png)
-Results ![image](https://user-images.githubusercontent.com/92629573/156276059-178b4759-8772-4867-b404-937ace65e1ba.png)
+Results ![image](https://user-images.githubusercontent.com/92629573/156276188-87f11a42-5394-43ad-83aa-3b6176c80a9a.png)
+
 
 
 

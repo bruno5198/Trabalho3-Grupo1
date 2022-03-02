@@ -252,7 +252,7 @@ class Driver():
         min_linear = 0.25
         error_ang = 0
         error_ang_prev = 0
-        kp = 0.001
+        kp = 0.0025
         kd = 0.000125
 
         # Walls
@@ -331,9 +331,15 @@ class Driver():
             ang = atan2(y, x)
 
             G = 1
-            m = 0.5
+            m = 1
 
-            lin = G*m/(distance_to_goal + 0.001)  # Gravitational Proportional Controller
+
+            vel = G*m/(distance_to_goal + 0.001)  # Gravitational Proportional Controller
+
+            if vel < lin:
+                pass
+            else:
+                lin = vel
 
         if self.state == 'Following target avoiding threat':
 

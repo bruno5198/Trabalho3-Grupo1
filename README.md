@@ -58,7 +58,7 @@ Ou o seguinte comando (para a versão [p_mrivadeneira](https://github.com/bruno5
 
 Este comando fará despoletar o simulador Gazebo, já com o mundo/arena referente ao jogo TeamHunt.
 
-![image](https://user-images.githubusercontent.com/92629573/156274141-6a11167e-c6f4-4340-8efb-99da9019d9b9.png)
+![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/Gazebo%20simulator.png)
 
 
 # Vizualização do robô em RViz
@@ -70,7 +70,7 @@ Ou o seguinte comando (para a versão [p_mrivadeneira](https://github.com/bruno5
 
     roslaunch p_mrivadeneira_bringup visualize.launch player_name:=[nome]
 
-!!!!!!!!! Colocar aqui uma imagem do RViz !!!!!!!!!!
+![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/Robot%20visualization%20RViz.png)
 
 # Manual driving race (Teleop)
 O controlo manual do robô pode ser efetuado de duas formas distintas, recorrendo ao [controlador do ROS](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/p_mrivadeneira/p_mrivadeneira_bringup/launch/myteleop.launch) (com ligeiras modificações), ou recorrendo a um telemóvel.
@@ -95,6 +95,8 @@ Adição de um novo robô     |  Parametrização do robô
 # Seguimento de um Goal (RViz)
 Para o seguimento de um Goal, ao qual se deu precedência sobre os restantes comportamentos do robô (o comportamento de caça e de fuga, por exemplo), fora inicialmente utilizada uma abordagem simplista, visível na versão [p_bmendes](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_bmendes), onde após a definição de um Goal, no RViz, o robô se desloca em linha reta até alcançar esse mesmo Goal, não considerando eventuais obstáculos pelo caminho. No sentido de tornar mais eficiente esta componente, optou-se por uma segunda abordagem, visível na versão [p_mrivadeneira](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_mrivadeneira), em que se recorrera ao [ROS Navigation](http://wiki.ros.org/navigation), permitindo assim que o robô não só se movimentasse em direção a um Goal previamente definido, mas fazendo-o evitando os obstáculos que surgem no seu caminho.
 
+![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/Navigation.png)
+
 Notar que, para a componente de navegação são necessários os seguintes pacotes:
 
  - [ROS navigation](https://github.com/ros-planning/navigation);
@@ -106,10 +108,16 @@ Notar que, para a componente de navegação são necessários os seguintes pacot
 # Interface do no driver
 Com o intuito de tornar simples a perceção do comportamento do robô em cada instante, foram implementadas algumas "técnicas" como por exemplo, na versão [p_bmendes](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_bmendes), a criação de uma janela através da qual podem ser visualizadas as imagens provenientes das câmaras que o robô possui (uma câmara a apontar para a frente e outra para trás), bem como uma legenda que permite perceber a qual dos robôs corresponde a imagem (bem como qual a sua equipa e adversários), se está a ser detetada alguma presa ou caçador e qual o estado do robô, isto é, se se encontra em modo de fuga, em modo de perseguição ou em modo de procura por uma presa.
 
-!!!!!!!!! Colocar aqui uma imagem !!!!!!!!!!
+Interface p_bmendes     
+:-------------------------:
+![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/CV2%20Window%20p_bmendes.png)
 
-Na versão [p_mrivadeneira](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_mrivadeneira), fora ainda criada de igual forma uma janela através da qual pode ser visualizada a câmara frontal que o robô possui, janela essa através da qual se consegue ter a perfeita precessão do caminho que o robô terá de percorrer para alcançar um Goal manualmente definido no RViz, como mostra a imagem seguinte.
+Na versão [p_mrivadeneira](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_mrivadeneira), fora também criada uma janela através da qual pode ser visualizada a câmara frontal que o robô possui, janela essa através da qual se consegue ter a perfeita precessão do caminho que o robô terá de percorrer para alcançar um Goal manualmente definido no RViz, como mostra a imagem seguinte.
 
+Interface p_mrivadeneira     
+:-------------------------:
+![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/CV2%20Window%20p_mrivadeneira.png)
+Seguimento de um Goal p_mrivadeneira
 ![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/Goal.png)
 
 # Perceção da cena
@@ -155,20 +163,12 @@ Para que os controladores dos braços dos robôs funcionem é necessário instal
 **Nota:** No pacote "Ros controllers" deve ser apagado o pacote "four_wheel_steering_controller" pois apresenta um erro de compilação.
 
 # Demonstração do jogo
-[Em execução]
+De seguida serão apresentadas algumas imagens, bem como um pequeno vídeo demonstratido do jogo TeamHunt.
 
+Imagens 1     |  Imagem 2
+:-------------------------:|:-------------------------:
+![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/TeamHunt%20Game%20Example%201.png)  |  ![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/TeamHunt%20Game%20Example%202.png)
 
-Gazebo e players ![image](https://user-images.githubusercontent.com/92629573/156273435-3bd0d20f-303c-4d16-9230-d2ade5bd97da.png)
-Camara p_bmendes ![image](https://user-images.githubusercontent.com/92629573/156273971-22d4555c-997d-43ea-96b0-f756bd5194ba.png)
-Camara p_mrivadeneira ![image](https://user-images.githubusercontent.com/92629573/156274415-eb5f7f1e-bb13-49f3-83c9-ed259a01c406.png)
-RVIZ player ![image](https://user-images.githubusercontent.com/92629573/156274669-22b9c700-503c-4d47-a52d-7e72f094d63b.png)
-RVIZ navigation ![image](https://user-images.githubusercontent.com/92629573/156274980-308b1a65-1ffe-42a0-83fd-ed353cabbd91.png)
-Gazebo game1 ![image](https://user-images.githubusercontent.com/92629573/156275430-50df78cb-fa7e-4bda-b016-aa5e642827fd.png)
-Gazebo game2 ![image](https://user-images.githubusercontent.com/92629573/156275727-e8af5cc0-56d8-452c-a019-1a274230e36e.png)
-Results ![image](https://user-images.githubusercontent.com/92629573/156276188-87f11a42-5394-43ad-83aa-3b6176c80a9a.png)
-
-
-
-
-
-
+Resultados do jogo
+:-------------------------:
+![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/TeamHunt%20Game%20Results.png)

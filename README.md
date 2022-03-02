@@ -121,17 +121,17 @@ Seguimento de um Goal p_mrivadeneira
 ![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/Goal.png)
 
 # Perceção da cena
-Relativamente à perceção da cena, cada robô consegue ter uma noção daquilo que o rodeia, tendo sido utilizados para isso diversos sensores, como são exemplo o Lasrscan, as câmeras, entre outros.
+Relativamente à perceção da cena, cada robô consegue ter uma noção daquilo que o rodeia, tendo sido utilizados para isso diversos sensores, como são exemplo o Laserscan, as câmeras, entre outros.
 A título de exemplo, através da/das câmaras e do processamento de imagem, cada robô consegue detetar a presença de uma presa ou de um caçador e tomar decisões em função da posição dos mesmos. Recorrendo à informação obtida através do Laserscan, cada robô consegue ainda detetar obstáculos, como paredes, perceber qual a posição dos mesmos e evitar uma eventual colisão.
 
 # Modo de fuga
 Para o modo de fuga, optou-se por dotar os robôs da capacidade de, assim que detetem um caçador, através do processamento da imagem proveniente da sua câmara frontal, rodarem rápidamente 180 graus para que esse mesmo caçador fique nas suas costas e assim possam andar em frente até que deixem de estar "sob ameaça". Para facilitar a fuga optou-se por recorrer a uma segunda câmara, capaz de visualizar e interpretar o que se passa nas costas do robô. Através desta segunda câmera o robô que está em fuga consegue perceber se ainda está a ser perseguido por um caçador e qual a distância a que o mesmo se encontra. Caso o caçador se encontre a uma distância definida como segura, o modo de fuga é interrompido e o robô inicia o modo de procura por uma presa.
 
 # Modo de perseguição
-No modo de perseguição, o robô segue em linha reta em direção à sua presa, previamente detetada através do processamento da imagem proveniente da sua câmara frontal. Caso essa mesma presa se desloque, tentando evitar ser caçada, o robô que se encontra em perseguição compensa a sua direção no sentido de necessitar apenas de se movimentar em linha reta.
+No modo de perseguição, o robô segue em linha reta em direção à sua presa, previamente detetada através do processamento da imagem proveniente da sua câmara frontal. Caso essa mesma presa se desloque, tentando evitar ser caçada, o robô que se encontra em perseguição compensa a sua orientação no sentido de necessitar apenas de se movimentar em linha reta.
 
 # Evitar obstáculos
-Para evitar obstáculos, foram seguidas duas abordagens. Numa das abordagens, o robô recorre ao sensor [LaserScan](http://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/LaserScan.html) para ter uma perseção daquilo que o rodeia e, considerando que um obstáculo (tipicamente, uma parece) tem sempre um tamanho superior quando comparado com um robô, conseguir afastar-se de um qualquer obstáculo.
+Para evitar obstáculos, foram seguidas duas abordagens. Numa das abordagens, o robô recorre ao sensor [LaserScan](http://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/LaserScan.html) para ter uma perseção daquilo que o rodeia e, considerando que um obstáculo (tipicamente, uma parede) tem sempre um tamanho superior quando comparado com um robô, conseguir afastar-se de um qualquer obstáculo.
 
 Numa segunda abordagem, como referido anteriormente na secção [Seguimento de um Goal (RViz)](#seguimento-de-um-goal-rviz), recorreu-se ao ROS Navigation, onde o robô consegue ir ao encontro de um qualquer objetivo (quer o mesmo seja manualmente definido no RViz, quer corresponda, por exemplo, a uma presa) evitando eventuais obstáculos (podendo esses mesmos obstáculos tratar-se por exemplo, de um caçador).
 

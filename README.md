@@ -1,27 +1,27 @@
 # Team Hunt (PSR - Trabalho3 Grupo1)
 Repositório para a partilha de conteúdos relativos ao trabalho prático número 3, realizado no âmbito da Unidade Curricular de Programação de Sistemas Robóticos (PSR) pelos alunos da Universidade de Aveiro:
-###### André Vasconcelos (88983);
-###### Bruno Mendes (83583);
-###### Ivo Bastos (93194);
-###### Martín Rivadeneira (104548).
+###### [André Vasconcelos (88983)](https://github.com/andredvasconcelos);
+###### [Bruno Mendes (83583)](https://github.com/bruno5198);
+###### [Ivo Bastos (93194)](https://github.com/IvoBastos);
+###### [Martín Rivadeneira (104548)](https://github.com/MartinRivadeneira).
 
 # Indice
- - [Instalação](#instalação)
- - [Launch files de lançamento do robô](#launch-files-de-lançamento-do-robo)
- - [Simulação em Gazebo](#simulação-em-gazebo)
- - [Vizualização do robô em RViz](#vizualização-do-robô-em-rviz)
- - [Manual driving race (Teleop)](#manual-driving-race-teleop)
- - [Seguimento de um Goal (RViz)](#seguimento-de-um-goal-rviz)
- - [Interface do nó driver](#interface-do-no-driver)
- - [Perceção da cena](#perceção-da-cena)
- - [Modo de fuga](#modo-de-fuga)
- - [Modo de perseguição](#modo-de-perseguição)
- - [Evitar obstáculos](#evitar-obstáculos)
- - [Mapeamento do cenário](#mapeamento-do-cenário)
- - [Variabilidade de drivers](#variabilidade-de-drivers)
- - [Árbitro](#arbitro)
- - [Extras](#extras)
- - [Demonstração do jogo](#demonstração-do-jogo)
+ - [Instalação](#instalação);
+ - [Launch files de lançamento do robô](#launch-files-de-lançamento-do-robo);
+ - [Simulação em Gazebo](#simulação-em-gazebo);
+ - [Vizualização do robô em RViz](#vizualização-do-robô-em-rviz);
+ - [Manual driving race (Teleop)](#manual-driving-race-teleop);
+ - [Seguimento de um Goal (RViz)](#seguimento-de-um-goal-rviz);
+ - [Interface do nó driver](#interface-do-no-driver);
+ - [Perceção da cena](#perceção-da-cena);
+ - [Modo de fuga](#modo-de-fuga);
+ - [Modo de perseguição](#modo-de-perseguição);
+ - [Evitar obstáculos](#evitar-obstáculos);
+ - [Mapeamento do cenário](#mapeamento-do-cenário);
+ - [Variabilidade de drivers](#variabilidade-de-drivers);
+ - [Árbitro](#arbitro);
+ - [Extras](#extras);
+ - [Demonstração do jogo](#demonstração-do-jogo).
 
 # Instalação
 Como ponto de partida deve certificar-se de que possui o [ROS](http://wiki.ros.org/ROS/Introduction) instalado. Caso necessário, pode consultar um guia de instalação [aqui](http://wiki.ros.org/ROS/Installation). Salientar que, todo o trabalho presente neste repositório fora desenvolvido sobre o sistema [ROS Noetic](http://wiki.ros.org/noetic).
@@ -32,12 +32,12 @@ O pacote [p_bmendes_bringup](https://github.com/bruno5198/Trabalho3-Grupo1/tree/
 
 O pacote [p_bmendes_description](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_bmendes/p_bmendes_description) (ou [p_mrivadeneira_description](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_mrivadeneira/p_mrivadeneira_description)) contém um conjunto de ficheiros onde é definida a geometria do robô bem como os sensores que o mesmo possui, como é exemplo o sensor de contacto necessário ao funcionamento do jogo TeamHunt. Nos ficheiros em causa são ainda definidas um conjunto de propriedades essenciais, nomeadamente as cores que que poderão ser utilizadas no jogo e que representam, por exemplo, cada uma das três equipas existentes (equipa azul, verde e vermelha).
 
-Por fim, o pacote [p_bmendes_player](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_bmendes/p_bmendes_player) (ou [p_mrivadeneira_player](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_mrivadeneira/p_mrivadeneira_player)) contém o algoritmo desenvolvido e que permite o controlo de um ou mais robôs, tendo sido, portanto, desenvolvidos dois algoritmos distintos.
+Por fim, o pacote [p_bmendes_player](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_bmendes/p_bmendes_player) (ou [p_mrivadeneira_player](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_mrivadeneira/p_mrivadeneira_player)) contém o algoritmo desenvolvido e que permite a autonomia de um ou mais robôs, tendo sido, portanto, desenvolvidos dois algoritmos distintos.
 
 # Launch files de lançamento do robo
-Para o lançamento não só do robô mas de tudo aquilo que é necessário para a realização do jogo TeamHunt (como, por exemplo, a arena onde decorre o jogo ou o árbitro que monitoriza o mesmo) foi criado o ficheiro [game_bringup.launch](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/p_bmendes/p_bmendes_bringup/launch/game_bringup.launch) (ou [game_bringup.launch](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/p_mrivadeneira/p_mrivadeneira_bringup/launch/game_bringup.launch).
+Para o lançamento não só do robô mas de tudo aquilo que é necessário para a realização do jogo TeamHunt (como, por exemplo, a arena onde decorre o jogo ou o árbitro que monitoriza o mesmo) foi criado o ficheiro [game_bringup.launch](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/p_bmendes/p_bmendes_bringup/launch/game_bringup.launch) (ou [game_bringup.launch](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/p_mrivadeneira/p_mrivadeneira_bringup/launch/game_bringup.launch)).
 
-Através do ficheiro em causa é possível fazer o spawn de vários robôs, colocando-os em equipas de acordo com o seu nome, através dos parâmetros predefinidos no dicheiro [game.yaml](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/p_bmendes/p_bmendes_bringup/params/game.yaml) (ou [game.yaml](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/p_mrivadeneira/p_mrivadeneira_bringup/params/game.yaml) na versão [p_mrivadeneira](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_mrivadeneira)).
+Através do ficheiro em causa é possível fazer o spawn de vários robôs, colocando-os em equipas de acordo com o seu nome, através dos parâmetros predefinidos no ficheiro [game.yaml](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/p_bmendes/p_bmendes_bringup/params/game.yaml) (ou [game.yaml](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/p_mrivadeneira/p_mrivadeneira_bringup/params/game.yaml) na versão [p_mrivadeneira](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_mrivadeneira)).
 
 Parâmetros como o nome do robô, a sua cor ou a [arena](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/TeamHunt/th_description) na qual se pretende que decorra o jogo podem ser alterados consoante o pretendido. Para isso basta executar o seguinte comando (para a versão [p_bmendes](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_bmendes)) num terminal, substituindo os campos entre parêntises retos de acordo com o pretendido:
 
@@ -58,7 +58,7 @@ Ou o seguinte comando (para a versão [p_mrivadeneira](https://github.com/bruno5
 
 Este comando fará despoletar o simulador Gazebo, já com o mundo/arena referente ao jogo TeamHunt.
 
-![image](https://user-images.githubusercontent.com/92629573/156274141-6a11167e-c6f4-4340-8efb-99da9019d9b9.png)
+![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/Gazebo%20simulator.png)
 
 
 # Vizualização do robô em RViz
@@ -70,7 +70,7 @@ Ou o seguinte comando (para a versão [p_mrivadeneira](https://github.com/bruno5
 
     roslaunch p_mrivadeneira_bringup visualize.launch player_name:=[nome]
 
-!!!!!!!!! Colocar aqui uma imagem do RViz !!!!!!!!!!
+![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/Robot%20visualization%20RViz.png)
 
 # Manual driving race (Teleop)
 O controlo manual do robô pode ser efetuado de duas formas distintas, recorrendo ao [controlador do ROS](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/p_mrivadeneira/p_mrivadeneira_bringup/launch/myteleop.launch) (com ligeiras modificações), ou recorrendo a um telemóvel.
@@ -95,6 +95,8 @@ Adição de um novo robô     |  Parametrização do robô
 # Seguimento de um Goal (RViz)
 Para o seguimento de um Goal, ao qual se deu precedência sobre os restantes comportamentos do robô (o comportamento de caça e de fuga, por exemplo), fora inicialmente utilizada uma abordagem simplista, visível na versão [p_bmendes](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_bmendes), onde após a definição de um Goal, no RViz, o robô se desloca em linha reta até alcançar esse mesmo Goal, não considerando eventuais obstáculos pelo caminho. No sentido de tornar mais eficiente esta componente, optou-se por uma segunda abordagem, visível na versão [p_mrivadeneira](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_mrivadeneira), em que se recorrera ao [ROS Navigation](http://wiki.ros.org/navigation), permitindo assim que o robô não só se movimentasse em direção a um Goal previamente definido, mas fazendo-o evitando os obstáculos que surgem no seu caminho.
 
+![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/Navigation.png)
+
 Notar que, para a componente de navegação são necessários os seguintes pacotes:
 
  - [ROS navigation](https://github.com/ros-planning/navigation);
@@ -106,24 +108,30 @@ Notar que, para a componente de navegação são necessários os seguintes pacot
 # Interface do no driver
 Com o intuito de tornar simples a perceção do comportamento do robô em cada instante, foram implementadas algumas "técnicas" como por exemplo, na versão [p_bmendes](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_bmendes), a criação de uma janela através da qual podem ser visualizadas as imagens provenientes das câmaras que o robô possui (uma câmara a apontar para a frente e outra para trás), bem como uma legenda que permite perceber a qual dos robôs corresponde a imagem (bem como qual a sua equipa e adversários), se está a ser detetada alguma presa ou caçador e qual o estado do robô, isto é, se se encontra em modo de fuga, em modo de perseguição ou em modo de procura por uma presa.
 
-!!!!!!!!! Colocar aqui uma imagem !!!!!!!!!!
+Interface p_bmendes     
+:-------------------------:
+![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/CV2%20Window%20p_bmendes.png)
 
-Na versão [p_mrivadeneira](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_mrivadeneira), fora ainda criada de igual forma uma janela através da qual pode ser visualizada a câmara frontal que o robô possui, janela essa através da qual se consegue ter a perfeita precessão do caminho que o robô terá de percorrer para alcançar um Goal manualmente definido no RViz, como mostra a imagem seguinte.
+Na versão [p_mrivadeneira](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_mrivadeneira), fora também criada uma janela através da qual pode ser visualizada a câmara frontal que o robô possui, janela essa através da qual se consegue ter a perfeita precessão do caminho que o robô terá de percorrer para alcançar um Goal manualmente definido no RViz, como mostra a imagem seguinte.
 
+Interface p_mrivadeneira     
+:-------------------------:
+![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/CV2%20Window%20p_mrivadeneira.png)
+Seguimento de um Goal p_mrivadeneira
 ![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/Goal.png)
 
 # Perceção da cena
-Relativamente à perceção da cena, cada robô consegue ter uma noção daquilo que o rodeia, tendo sido utilizados para isso diversos sensores, como são exemplo o Lasrscan, as câmeras, entre outros.
+Relativamente à perceção da cena, cada robô consegue ter uma noção daquilo que o rodeia, tendo sido utilizados para isso diversos sensores, como são exemplo o Laserscan, as câmeras, entre outros.
 A título de exemplo, através da/das câmaras e do processamento de imagem, cada robô consegue detetar a presença de uma presa ou de um caçador e tomar decisões em função da posição dos mesmos. Recorrendo à informação obtida através do Laserscan, cada robô consegue ainda detetar obstáculos, como paredes, perceber qual a posição dos mesmos e evitar uma eventual colisão.
 
 # Modo de fuga
 Para o modo de fuga, optou-se por dotar os robôs da capacidade de, assim que detetem um caçador, através do processamento da imagem proveniente da sua câmara frontal, rodarem rápidamente 180 graus para que esse mesmo caçador fique nas suas costas e assim possam andar em frente até que deixem de estar "sob ameaça". Para facilitar a fuga optou-se por recorrer a uma segunda câmara, capaz de visualizar e interpretar o que se passa nas costas do robô. Através desta segunda câmera o robô que está em fuga consegue perceber se ainda está a ser perseguido por um caçador e qual a distância a que o mesmo se encontra. Caso o caçador se encontre a uma distância definida como segura, o modo de fuga é interrompido e o robô inicia o modo de procura por uma presa.
 
 # Modo de perseguição
-No modo de perseguição, o robô segue em linha reta em direção à sua presa, previamente detetada através do processamento da imagem proveniente da sua câmara frontal. Caso essa mesma presa se desloque, tentando evitar ser caçada, o robô que se encontra em perseguição compensa a sua direção no sentido de necessitar apenas de se movimentar em linha reta.
+No modo de perseguição, o robô segue em linha reta em direção à sua presa, previamente detetada através do processamento da imagem proveniente da sua câmara frontal. Caso essa mesma presa se desloque, tentando evitar ser caçada, o robô que se encontra em perseguição compensa a sua orientação no sentido de necessitar apenas de se movimentar em linha reta.
 
 # Evitar obstáculos
-Para evitar obstáculos, foram seguidas duas abordagens. Numa das abordagens, o robô recorre ao sensor [LaserScan](http://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/LaserScan.html) para ter uma perseção daquilo que o rodeia e, considerando que um obstáculo (tipicamente, uma parece) tem sempre um tamanho superior quando comparado com um robô, conseguir afastar-se de um qualquer obstáculo.
+Para evitar obstáculos, foram seguidas duas abordagens. Numa das abordagens, o robô recorre ao sensor [LaserScan](http://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/LaserScan.html) para ter uma perseção daquilo que o rodeia e, considerando que um obstáculo (tipicamente, uma parede) tem sempre um tamanho superior quando comparado com um robô, conseguir afastar-se de um qualquer obstáculo.
 
 Numa segunda abordagem, como referido anteriormente na secção [Seguimento de um Goal (RViz)](#seguimento-de-um-goal-rviz), recorreu-se ao ROS Navigation, onde o robô consegue ir ao encontro de um qualquer objetivo (quer o mesmo seja manualmente definido no RViz, quer corresponda, por exemplo, a uma presa) evitando eventuais obstáculos (podendo esses mesmos obstáculos tratar-se por exemplo, de um caçador).
 
@@ -155,20 +163,12 @@ Para que os controladores dos braços dos robôs funcionem é necessário instal
 **Nota:** No pacote "Ros controllers" deve ser apagado o pacote "four_wheel_steering_controller" pois apresenta um erro de compilação.
 
 # Demonstração do jogo
-[Em execução]
+De seguida serão apresentadas algumas imagens, bem como um pequeno vídeo demonstratido do jogo TeamHunt.
 
+Imagens 1     |  Imagem 2
+:-------------------------:|:-------------------------:
+![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/TeamHunt%20Game%20Example%201.png)  |  ![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/TeamHunt%20Game%20Example%202.png)
 
-Gazebo e players ![image](https://user-images.githubusercontent.com/92629573/156273435-3bd0d20f-303c-4d16-9230-d2ade5bd97da.png)
-Camara p_bmendes ![image](https://user-images.githubusercontent.com/92629573/156273971-22d4555c-997d-43ea-96b0-f756bd5194ba.png)
-Camara p_mrivadeneira ![image](https://user-images.githubusercontent.com/92629573/156274415-eb5f7f1e-bb13-49f3-83c9-ed259a01c406.png)
-RVIZ player ![image](https://user-images.githubusercontent.com/92629573/156274669-22b9c700-503c-4d47-a52d-7e72f094d63b.png)
-RVIZ navigation ![image](https://user-images.githubusercontent.com/92629573/156274980-308b1a65-1ffe-42a0-83fd-ed353cabbd91.png)
-Gazebo game1 ![image](https://user-images.githubusercontent.com/92629573/156275430-50df78cb-fa7e-4bda-b016-aa5e642827fd.png)
-Gazebo game2 ![image](https://user-images.githubusercontent.com/92629573/156275727-e8af5cc0-56d8-452c-a019-1a274230e36e.png)
-Results ![image](https://user-images.githubusercontent.com/92629573/156276188-87f11a42-5394-43ad-83aa-3b6176c80a9a.png)
-
-
-
-
-
-
+Resultados do jogo
+:-------------------------:
+![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/TeamHunt%20Game%20Results.png)

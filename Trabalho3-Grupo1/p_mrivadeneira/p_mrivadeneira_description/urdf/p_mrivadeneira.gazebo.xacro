@@ -10,9 +10,9 @@
     <material>Gazebo/${player_color}</material>
   </gazebo>
 
-  <gazebo reference="antenna">
-    <material>Gazebo/${player_color}</material>
-  </gazebo>
+<!--  <gazebo reference="antenna">-->
+<!--    <material>Gazebo/${player_color}</material>-->
+<!--  </gazebo>-->
   <gazebo reference="left_arm">
       <material>Gazebo/Gray</material>
   </gazebo>

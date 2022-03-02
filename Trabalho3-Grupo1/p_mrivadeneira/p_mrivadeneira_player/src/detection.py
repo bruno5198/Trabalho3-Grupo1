@@ -81,7 +81,9 @@ def MarkerArrayReceivedCallback(marker_array):
     markers_copy = copy.deepcopy(marker_array)
 
     Z0A = False
+    Z1A_close = False
     Z0B = False
+    Z1B_close = False
     Z1A = False
     Z1B = False
     Z2A = False
@@ -95,6 +97,7 @@ def MarkerArrayReceivedCallback(marker_array):
     walls[1] = False
     walls[2] = False
     walls[3] = False
+    walls[4] = False
 
 
     distance_limit = 1.5
@@ -123,8 +126,12 @@ def MarkerArrayReceivedCallback(marker_array):
                         Z0B = True
                     elif angle > 2*pi/6 and angle < 3*pi/6 and distance < distance_limit:
                         Z1A = True
+                        if distance < 0.2:
+                            Z1A_close = True
                     elif angle > 3*pi/6 and angle < 4*pi/6 and distance < distance_limit:
                         Z1B = True
+                        if distance < 0.2:
+                            Z1B_close = True
                     elif angle > 5*pi/6 and distance < distance_limit:
                         Z2A = True
                     elif angle < -5*pi/6 and distance < distance_limit:
@@ -149,6 +156,8 @@ def MarkerArrayReceivedCallback(marker_array):
     if Z3A and Z3B:
         # print('There is a wall on the back')
         walls[3] = True
+    if Z1A_close and Z1B_close:
+        walls[4] = True
 
 def Drawing(centroid_target, bounding_box_target, centroid_threat, bounding_box_threat):
 
@@ -670,7 +679,7 @@ def main():
     threat_y = 0
     threat_z = 0
 
-    walls = [False, False, False, False]
+    walls = [False, False, False, False, False]
 
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()

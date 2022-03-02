@@ -5,6 +5,7 @@ import rospy
 import re
 import sys
 import tf2_ros
+import time
 from math import *
 from geometry_msgs.msg import Twist, PoseStamped, Point
 from std_msgs.msg import Float64
@@ -59,7 +60,7 @@ class Driver():
         # Near walls
         self.flag_near_wall = False
         self.near_wall_coords = (0,0)
-        self.walls = []
+        self.walls = [False, False, False, False]
         self.previous_front_wall = False
 
         # State machine
@@ -77,18 +78,20 @@ class Driver():
         args = rospy.myargv(argv=sys.argv)
         try:
             self.visualize = args[1]
+            self.run = args[2]
         except:
             self.visualize = "false"
+            self.run = "true"
 
         self.TeamsDefinition(self.name)
 
     def left_arm(self, pos):
 
-        self.left_arm_position = pos
+        self.left_arm_position = pos.data
 
     def right_arm(self, pos):
 
-        self.right_arm_position = pos
+        self.right_arm_position = pos.data
 
     def TeamsDefinition(self, name):
 
@@ -141,17 +144,23 @@ class Driver():
         print('         Threat position: ' + str((round(self.threat.x,3), round(self.threat.y,3))))
 
         print('     Walls')
-        print('         [RIGHT FRONT LEFT BACK]: ' + str(self.walls))
+        print('         [RIGHT FRONT LEFT BACK FRONT(collision)]: ' + str(self.walls))
 
         print('\n')
         print('Velocity:')
         print('     Linear: ' + str(round(self.speed,3)))
         print('     Angular: ' + str(round(self.angle,3)))
 
-        print('\n')
-        print('Arms position:')
-        print('     Right: ' + str(self.right_arm_position))
-        print('     Left: ' + str(self.left_arm_position))
+        if self.right_arm_position == float(0.0):
+            print('\n')
+            print('Arms position: CLOSED')
+        elif self.right_arm_position >= float(1.0):
+            print('\n')
+            print('Arms position: OPEN (ATTACK)')
+        else:
+            print('\n')
+            print('Arms position: OPEN (DEFENCE)')
+
 
     def SensorsCallback(self, detection_info):
 
@@ -187,11 +196,13 @@ class Driver():
 
         if self.flag_target_close:
             self.state = 'Catching near target'
-        elif self.flag_threat_close and self.threat_center == 0:
+        elif self.flag_threat_close:
             self.state = 'Escaping from near threat'
         else:
-            if self.target_center == 0 and self.threat_center == 0:
+            if self.target_center == 0 and self.threat_center == 0 and not self.flag_near_body:
                 self.state = 'Wondering'
+            elif self.target_center == 0 and self.threat_center == 0 and self.flag_near_body:
+                self.state = 'Running away from unknown robot'
             elif (self.target_center != 0 and self.threat_center == 0) or (self.target_center != 0 and self.threat_center != 0 and self.target_area >= self.threat_area):
                 self.state = 'Following target'
             elif self.target_center != 0 and self.threat_center != 0 and self.target_area <= self.threat_area:
@@ -201,6 +212,9 @@ class Driver():
 
         if self.flag_goal_active:
             self.state = 'Following Goal'
+
+        if self.walls[4]:
+            self.state = 'Reverse Gear'
 
     # def LaserScanPointsReceived(self, marker_array):
     #
@@ -234,12 +248,18 @@ class Driver():
         threat_position = self.threat_center
         threat_area = self.threat_area
 
-        max_linear = 2
+        max_linear = 1.5
         min_linear = 0.25
         error_ang = 0
         error_ang_prev = 0
         kp = 0.001
         kd = 0.000125
+
+        # Walls
+        Z0 = self.walls[0]
+        Z1 = self.walls[1]
+        Z2 = self.walls[2]
+        Z3 = self.walls[3]
 
         if self.state == 'Wondering':
 
@@ -257,26 +277,32 @@ class Driver():
             #
             # self.previous_front_wall = copy.deepcopy(self.walls[3])
 
-            Z0 = self.walls[0]
-            Z1 = self.walls[1]
-            Z2 = self.walls[2]
-            Z3 = self.walls[3]
-
             if not Z1:
-                lin = 0.5
+                lin = 0.7
                 ang = 0
             else:
-                lin = 0
+                lin = 0.3
                 if Z0:
-                    ang = 0.5
+                    ang = 1
                 elif Z2:
-                    ang = -0.5
+                    ang = -1
                 else:
                     choises = [-1, 1]
                     k = random.choice(choises)
                     k = 1
                     ang = k*0.5
 
+        if self.state == 'Running away from unknown robot':
+
+            if not Z1:
+                lin = 1
+                ang = 0
+            else:
+                lin = 1
+                if Z0:
+                    ang = 0.5
+                else:
+                    ang = -0.5
 
         if self.state == 'Following target':
 
@@ -358,9 +384,18 @@ class Driver():
 
             # lin = 0.5/(distance_to_goal + 0.001)          # Gravitational Proporcional Controller
 
+        if self.state == 'Reverse Gear':
+            lin = -1
+            ang = 0
+            time.sleep(0.2)
 
-        self.speed = lin
-        self.angle = ang
+        # Run driver
+        if self.run == 'true':
+            self.speed = lin
+            self.angle = ang
+        else:
+            self.speed = 0
+            self.angle = 0
 
     def SendCommandCallback(self, event):
 

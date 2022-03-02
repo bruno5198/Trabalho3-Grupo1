@@ -38,7 +38,7 @@
         </group>
     </group>
 
-    <!-- Run driver.py script to each player -->
+<!--     Run driver.py script to each player -->
     <node pkg="p_bmendes_player" type="driver.py" name="$(arg player_name)" output="screen" args="$(arg camera_visualize)"> </node>
 
 </launch>

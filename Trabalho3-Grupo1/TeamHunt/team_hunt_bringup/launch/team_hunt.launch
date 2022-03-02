@@ -13,8 +13,6 @@
     <!--     </include> -->
 
     <!-- RED TEAM -->
-
-    <!--    Bring up 1 red robot-->
     <include file="$(find p_bmendes_bringup)/launch/bringup.launch">
         <arg name="player_name" value="red1"/>      # To set player name.
         <arg name="player_color" value="Red"/>      # To set player color.
@@ -24,20 +22,89 @@
         <arg name="y_pos" value="0.0"/>
         <arg name="z_pos" value="0.0"/>
     </include>
+    <include file="$(find p_bmendes_bringup)/launch/bringup.launch">
+        <arg name="player_name" value="red2"/>      # To set player name.
+        <arg name="player_color" value="Red"/>      # To set player color.
+        <arg name="visualize" default="false"/>
+        <arg name="camera_visualize" default="false"/>
+        <arg name="x_pos" value="0.0"/>
+        <arg name="y_pos" value="-2.0"/>
+        <arg name="z_pos" value="0.0"/>
+    </include>
+<!--    <include file="$(find p_bmendes_bringup)/launch/bringup.launch">-->
+<!--        <arg name="player_name" value="red3"/>      # To set player name.-->
+<!--        <arg name="player_color" value="Red"/>      # To set player color.-->
+<!--        <arg name="visualize" default="false"/>-->
+<!--        <arg name="camera_visualize" default="false"/>-->
+<!--        <arg name="x_pos" value="0.0"/>-->
+<!--        <arg name="y_pos" value="2.0"/>-->
+<!--        <arg name="z_pos" value="0.0"/>-->
+<!--    </include>-->
+
+
+    <!-- GREEN TEAM -->
+    <include file="$(find p_bmendes_bringup)/launch/bringup.launch">
+        <arg name="player_name" value="green1"/>      # To set player name.
+        <arg name="player_color" value="Green"/>      # To set player color.
+        <arg name="visualize" default="false"/>
+        <arg name="camera_visualize" default="false"/>
+        <arg name="x_pos" value="6.0"/>
+        <arg name="y_pos" value="0.0"/>
+        <arg name="z_pos" value="0.0"/>
+    </include>
+    <include file="$(find p_bmendes_bringup)/launch/bringup.launch">
+        <arg name="player_name" value="green2"/>      # To set player name.
+        <arg name="player_color" value="Green"/>      # To set player color.
+        <arg name="visualize" default="false"/>
+        <arg name="camera_visualize" default="false"/>
+        <arg name="x_pos" value="6.0"/>
+        <arg name="y_pos" value="-2.0"/>
+        <arg name="z_pos" value="0.0"/>
+    </include>
+<!--    <include file="$(find p_bmendes_bringup)/launch/bringup.launch">-->
+<!--        <arg name="player_name" value="green3"/>      # To set player name.-->
+<!--        <arg name="player_color" value="Green"/>      # To set player color.-->
+<!--        <arg name="visualize" default="false"/>-->
+<!--        <arg name="camera_visualize" default="false"/>-->
+<!--        <arg name="x_pos" value="6.0"/>-->
+<!--        <arg name="y_pos" value="2.0"/>-->
+<!--        <arg name="z_pos" value="0.0"/>-->
+<!--    </include>-->
 
     <!-- BLUE TEAM -->
-
-    <!--    Bring up  blue robot-->
     <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
         <arg name="player_name" default="blue1"/>
         <arg name="player_color" default="Blue"/>
+        <arg name="run_driver" default="true"/>
         <arg name="visualize" default="false"/>
         <arg name="camera_visualize" default="false"/>
-        <arg name="x_pos" default="0.0"/>
-        <arg name="y_pos" default="-1.5"/>
+        <arg name="x_pos" default="-6.0"/>
+        <arg name="y_pos" default="0.0"/>
         <arg name="z_pos" default="0.0"/>
     </include>
+    <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
+        <arg name="player_name" default="blue2"/>
+        <arg name="player_color" default="Blue"/>
+        <arg name="run_driver" default="true"/>
+        <arg name="visualize" default="false"/>
+        <arg name="camera_visualize" default="false"/>
+        <arg name="x_pos" default="-6.0"/>
+        <arg name="y_pos" default="-2.0"/>
+        <arg name="z_pos" default="0.0"/>
+    </include>
+<!--    <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">-->
+<!--        <arg name="player_name" default="blue3"/>-->
+<!--        <arg name="player_color" default="Blue"/>-->
+<!--        <arg name="run_driver" default="true"/>-->
+<!--        <arg name="visualize" default="false"/>-->
+<!--        <arg name="camera_visualize" default="false"/>-->
+<!--        <arg name="x_pos" default="-6.0"/>-->
+<!--        <arg name="y_pos" default="2.0"/>-->
+<!--        <arg name="z_pos" default="0.0"/>-->
+<!--    </include>-->
 
 
+    <!-- Set players names -->
+    <node name="set_player_names" pkg="th_referee" type="set_player_names" output="screen"/>
 
 </launch>

@@ -238,21 +238,21 @@
 <!--  &lt;!&ndash; +++++++++++++++++++++++++++++++++++++++ EXTRAS FOR TURTLEBOT +++++++++++++++++++++++++++++++++++++++ &ndash;&gt;-->
 
     <!--base_link to antenna-->
-  <link name="antenna">
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <cylinder length="0.15" radius="0.005"/>
-      </geometry>
-      <material name="$(arg player_color)"/>
-    </visual>
-  </link>
+<!--  <link name="antenna">-->
+<!--    <visual>-->
+<!--      <origin rpy="0 0 0" xyz="0 0 0"/>-->
+<!--      <geometry>-->
+<!--        <cylinder length="0.15" radius="0.005"/>-->
+<!--      </geometry>-->
+<!--      <material name="$(arg player_color)"/>-->
+<!--    </visual>-->
+<!--  </link>-->
 
-  <joint name="base_link_to_antenna" type="fixed">
-    <origin rpy="0 0 0" xyz="0.05 0 0.16"/>
-    <parent link="base_link"/>
-    <child link="antenna"/>
-  </joint>
+<!--  <joint name="base_link_to_antenna" type="fixed">-->
+<!--    <origin rpy="0 0 0" xyz="0.05 0 0.16"/>-->
+<!--    <parent link="base_link"/>-->
+<!--    <child link="antenna"/>-->
+<!--  </joint>-->
 
 
   <!--Right arm-->

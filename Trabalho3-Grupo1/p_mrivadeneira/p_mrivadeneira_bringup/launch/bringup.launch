@@ -4,6 +4,7 @@
     <arg name="player_name" default="p_mrivadeneira"/>
     <arg name="player_color" default="Red"/>
     <arg name="gmapping" default="true"/>
+    <arg name="run_driver" default="true"/>
     <arg name="visualize" default="true"/>
     <arg name="camera_visualize" default="false"/>
     <arg name="x_pos" default="-1.4"/>
@@ -25,7 +26,7 @@
     </include>
 
     <!--Part3: Driver-->
-<!--     <node pkg="p_mrivadeneira_player" type="driver.py" name="$(arg player_name)" output="screen" args="$(arg visualize)">-->
+<!--     <node pkg="p_mrivadeneira_player" type="driver.py" name="$(arg player_name)" output="screen" args="$(arg visualize) $(arg run_driver)">-->
 <!--     </node>-->
 
     <!--Part 4: Detection-->

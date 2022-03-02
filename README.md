@@ -58,7 +58,7 @@ Ou o seguinte comando (para a versão [p_mrivadeneira](https://github.com/bruno5
 
 Este comando fará despoletar o simulador Gazebo, já com o mundo/arena referente ao jogo TeamHunt.
 
-!!!!!!!!! Colocar aqui uma imagem do Gazebo !!!!!!!!!!
+![image](https://user-images.githubusercontent.com/92629573/156273435-3bd0d20f-303c-4d16-9230-d2ade5bd97da.png)
 
 # Vizualização do robô em RViz
 Para a visualização do robô em [RViz](http://wiki.ros.org/rviz), software de vizualização 3D, e respetios dados associados ao robô, como as imagens captadas pelas câmaras que constituem o robô, a informação referente ao Laserscan captada pelo robô, entre outros, deve correr o seguinte comando, para a versão [p_bmendes](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_bmendes), num terninal:

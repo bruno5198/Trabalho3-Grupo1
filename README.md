@@ -163,6 +163,9 @@ Camara p_bmendes ![image](https://user-images.githubusercontent.com/92629573/156
 Camara p_mrivadeneira ![image](https://user-images.githubusercontent.com/92629573/156274415-eb5f7f1e-bb13-49f3-83c9-ed259a01c406.png)
 RVIZ player ![image](https://user-images.githubusercontent.com/92629573/156274669-22b9c700-503c-4d47-a52d-7e72f094d63b.png)
 RVIZ navigation ![image](https://user-images.githubusercontent.com/92629573/156274980-308b1a65-1ffe-42a0-83fd-ed353cabbd91.png)
+Gazebo game1 ![image](https://user-images.githubusercontent.com/92629573/156275430-50df78cb-fa7e-4bda-b016-aa5e642827fd.png)
+Gazebo game2 ![image](https://user-images.githubusercontent.com/92629573/156275727-e8af5cc0-56d8-452c-a019-1a274230e36e.png)
+
 
 
 

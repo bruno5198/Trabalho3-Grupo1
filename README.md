@@ -20,6 +20,7 @@ Repositório para a partilha de conteúdos relativos ao trabalho prático númer
  - [Mapeamento do cenário](#mapeamento-do-cenário);
  - [Variabilidade de drivers](#variabilidade-de-drivers);
  - [Árbitro](#arbitro);
+ - [Máquina de estados](#máquina-de-estados);
  - [Extras](#extras);
  - [Demonstração do jogo](#demonstração-do-jogo).
 
@@ -41,7 +42,7 @@ Através do ficheiro em causa é possível fazer o spawn de vários robôs, colo
 
 Parâmetros como o nome do robô, a sua cor ou a [arena](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/TeamHunt/th_description) na qual se pretende que decorra o jogo podem ser alterados consoante o pretendido. Para isso basta executar o seguinte comando (para a versão [p_bmendes](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_bmendes)) num terminal, substituindo os campos entre parêntises retos de acordo com o pretendido:
 
-    roslaunch p_bmendes_bringup game_bringup.launch player_name:=[nome] player_color:=[cor] x_pos:=[X axis position] y_pos:=[Y axis position] z_pos:=[Z axis position]
+    roslaunch p_bmendes_bringup game_bringup.launch
 
 Ou o seguinte comando (para a versão [p_mrivadeneira](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_mrivadeneira)):
 
@@ -93,7 +94,9 @@ Adição de um novo robô     |  Parametrização do robô
 **Nota:** Para que seja possível o controlo do robô como descrito anteriormente, é neessário que o computador onde está a correr a simulação em Gazebo e o telemóvel através do qual se pretende controlar o robô estejam na mesma rede.
 
 # Seguimento de um Goal (RViz)
-Para o seguimento de um Goal, ao qual se deu precedência sobre os restantes comportamentos do robô (o comportamento de caça e de fuga, por exemplo), fora inicialmente utilizada uma abordagem simplista, visível na versão [p_bmendes](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_bmendes), onde após a definição de um Goal, no RViz, o robô se desloca em linha reta até alcançar esse mesmo Goal, não considerando eventuais obstáculos pelo caminho. No sentido de tornar mais eficiente esta componente, optou-se por uma segunda abordagem, visível na versão [p_mrivadeneira](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_mrivadeneira), em que se recorrera ao [ROS Navigation](http://wiki.ros.org/navigation), permitindo assim que o robô não só se movimentasse em direção a um Goal previamente definido, mas fazendo-o evitando os obstáculos que surgem no seu caminho.
+Para o seguimento de um Goal, ao qual se deu precedência sobre os restantes comportamentos do robô (o comportamento de caça e de fuga, por exemplo), fora inicialmente utilizada uma abordagem simplista, na qual, durante o jogo TeamHunt, o seguimento é dado por um movimento linear até ao ponto/Goal juntamente com uma correção angular ao longo desse mesmo movimento. Desta forma, é apenas possível a definição da posição do robô e não a sua orientação final.
+
+Numa abordagem mais específica, fora do jogo TeamHunt, foi desenvolvida a navegação do robô, recorrendo ao pacote [ROS Navigation](http://wiki.ros.org/navigation), que inclui o planeamento do caminho para conseguir que o robô se movimente para a posição pretendida evitando obstáculos e otimizando o caminho escolhido por forma a atingir de forma mais eficaz o objetivo.
 
 ![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/Navigation.png)
 
@@ -121,14 +124,17 @@ Seguimento de um Goal p_mrivadeneira
 ![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/Goal.png)
 
 # Perceção da cena
-Relativamente à perceção da cena, cada robô consegue ter uma noção daquilo que o rodeia, tendo sido utilizados para isso diversos sensores, como são exemplo o Laserscan, as câmeras, entre outros.
+Relativamente à perceção da cena, cada robô consegue ter uma noção daquilo que o rodeia, tendo sido utilizado para isso o conceito de [SensorFusion](https://github.com/methylDragon/ros-sensor-fusion-tutorial/blob/master/01%20-%20ROS%20and%20Sensor%20Fusion%20Tutorial.md).
+
 A título de exemplo, através da/das câmaras e do processamento de imagem, cada robô consegue detetar a presença de uma presa ou de um caçador e tomar decisões em função da posição dos mesmos. Recorrendo à informação obtida através do Laserscan, cada robô consegue ainda detetar obstáculos, como paredes, perceber qual a posição dos mesmos e evitar uma eventual colisão.
 
 # Modo de fuga
 Para o modo de fuga, optou-se por dotar os robôs da capacidade de, assim que detetem um caçador, através do processamento da imagem proveniente da sua câmara frontal, rodarem rápidamente 180 graus para que esse mesmo caçador fique nas suas costas e assim possam andar em frente até que deixem de estar "sob ameaça". Para facilitar a fuga optou-se por recorrer a uma segunda câmara, capaz de visualizar e interpretar o que se passa nas costas do robô. Através desta segunda câmera o robô que está em fuga consegue perceber se ainda está a ser perseguido por um caçador e qual a distância a que o mesmo se encontra. Caso o caçador se encontre a uma distância definida como segura, o modo de fuga é interrompido e o robô inicia o modo de procura por uma presa.
 
 # Modo de perseguição
-No modo de perseguição, o robô segue em linha reta em direção à sua presa, previamente detetada através do processamento da imagem proveniente da sua câmara frontal. Caso essa mesma presa se desloque, tentando evitar ser caçada, o robô que se encontra em perseguição compensa a sua orientação no sentido de necessitar apenas de se movimentar em linha reta.
+No modo de perseguição, no caso da versão [p_bmendes](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_bmendes), o robô segue em linha reta em direção à sua presa, previamente detetada através do processamento da imagem proveniente da sua câmara frontal. Caso essa mesma presa se desloque, tentando evitar ser caçada, o robô que se encontra em perseguição compensa a sua orientação no sentido de necessitar apenas de se movimentar em linha reta.
+
+Numa segunda abordagem, nomeadamente na versão [p_mrivadeneira](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_mrivadeneira), optou-se por projetar os dados do lidar na câmara, conseguindo assim saber, através do relacionamento dos dados do lidar com a imagem e com a área do objeto detatado pela máscara da mesma, se existe alguma presa por perto. Quando é detetada uma presa mas a mesma se encontra a uma grande distância, o movimento do robô baseia-se no centroide detetado por visão, recorrendo a um controlador PD para manter um movimento o mais retilíneo possível até alcançar a presa e diminuir assim as oscilações. Quando é detetada uma presa por perto, o movimento do robô baseia-se na posição da presa detetada pelo lidar.
 
 # Evitar obstáculos
 Para evitar obstáculos, foram seguidas duas abordagens. Numa das abordagens, o robô recorre ao sensor [LaserScan](http://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/LaserScan.html) para ter uma perseção daquilo que o rodeia e, considerando que um obstáculo (tipicamente, uma parede) tem sempre um tamanho superior quando comparado com um robô, conseguir afastar-se de um qualquer obstáculo.
@@ -141,7 +147,7 @@ Para o mapeamento do cenário recorreu-se ao pacote [gmapping](http://wiki.ros.o
 ![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/gmapping.png)
 
 # Variabilidade de drivers
-Como fora abordado ao longo das secções anteriores, o presente projeto conta com dois drivers distintos, um dos quais se foca na componente de fuga e perseguição e o outro na aquisição da maior quantidade de informação para uma melhor perceção da cena.
+Como fora abordado ao longo das secções anteriores, o presente projeto conta com dois drivers distintos, um dos quais se foca na na visão para a perceção da cena e tomada de decisão, enquanto que o outro se baseia numa única câmara interligada com toda a informação recolhida por todos os sensores, também para a perceção da cena e tomada de decisão.
 
 # Arbitro
 Para a monitorização do jogo, foi implementado um [árbitro](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/TeamHunt/th_referee/src/th_referee) (código criado pelo professor da Unidade Curricular).
@@ -149,11 +155,24 @@ O árbitro pode ser lançado/executado correndo o seguinte comando num terminal:
 
     rosrun TeamHunt_th_referee th_referee
 
-**Nota:** Na versão [p_mrivadeneira](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_mrivadeneira) basta executar o [game_bringup.launch](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/p_mrivadeneira/p_mrivadeneira_bringup/launch/game_bringup.launch) que o árbitro já é automaticamente executado.
+# Máquina de estados
+Para o controlo do robô optou-se por uma abordagem baseada numa máquina de estados composta por nove estados, nomeadamente na versão [p_mrivadeneira](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_mrivadeneira):
+
+ - Estado 1 ("Catching near target"): O robô percebe que possui uma presa próximo de si, através da informação proveniente dos diversos sensores que possui, e tenta capturá-lo;
+ - Estado 2 ("Escaping from near threat"): O robô, sabendo que tem um caçador próximo de si, tenta evitar o mesmo movimentando-se no sentido oposto;
+ - Estado 3 ("Wondering"): O robô movimenta-se em frente, evitando as paredes caso necessário, enquanto não deteta nenhuma presa/caçador;
+ - Estado 4 ("Running away from unknown robot"): Caso o robô detete a presença de um outro robô próximo de si, contudo não sabe se se trata de uma presa ou de um caçador, ativa o modo de defesa, colocando os braços numa determinada posição e tenta fugir rapidamente;
+ - Estado 5 ("Following target"): Caso o robô detete uma presa, segue a mesma só com o recurso à câmara;
+ - Estado 6 ("Following target avoiding threat"): Caso o robô detete quer uma presa quer uma caçador, no entanto sabe que o caçador está mais próximo de si, tenta movimentar-se no sentido de apanhar a presa detetada mas evitando/contornando o caçador;
+ - Estado 7 ("Avoiding threat"):Caso o robô detete um caçador (ameaça), evita a mesma só com o recurso à câmara;
+ - Estado 8 ("Following Goal"): Caso seja definido manualmente um Goal, no RViz, o robô segue em direção ao mesmo, corrigindo a sua orientação durante o movimento;
+ - Estadp 9 ("Reverse gear"): Caso o robô fique preso numa parede, anda para trás o tempo suficiente para que, através do estado 3, consiga evitar a parede.
+
+Na versão [p_bmendes](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_bmendes) seguiu-se o mesmo princípio, ainda que com um menor número de estados.
 
 # Extras
 ###### Adição de "braços" aos robôs
-A adição de "braços" aos robôs tinha como objetivo inicial facilitar o modo de perseguição, sendo que assim que um robô se encontrasse próximo de uma presa "abriria os braços" apanhando/tocando na mesma. Contudo, uma vez que o sensor de contacto se encontra restringido ao corpo do robô, tal abordagem não foi possível. Optou-se assim por dar uma outra utilidade à adição de braços aos robôs, ainda no sentido de facilitar o mode de perseguição. Quando um robô se encontra próximo de uma presa, "abre os braços" numa tentativa de tornar mais difícil a tarefa de fuga da sua presa.
+A adição de "braços" aos robôs tinha como objetivo inicial facilitar o modo de perseguição, sendo que assim que um robô se encontrasse próximo de uma presa "abriria os braços" (formados por duas juntas rotacionais) apanhando/tocando na mesma. Contudo, uma vez que o sensor de contacto se encontra restringido ao corpo do robô, tal abordagem não foi possível. Optou-se assim por dar uma outra utilidade à adição de braços aos robôs, ainda no sentido de facilitar o mode de perseguição. Quando um robô se encontra próximo de uma presa, "abre os braços" numa tentativa de tornar mais difícil a tarefa de fuga da sua presa. Quando, por outro lado, o robô deteta a presença de um caçador ou de um robô desconhecido próximo de si, entra em modo de defesa, colocando os braços numa posição que impede o contacto com o caçador.
 
 Para que os controladores dos braços dos robôs funcionem é necessário instalar os seguintes pacotes:
 

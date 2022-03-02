@@ -160,3 +160,9 @@ Para que os controladores dos braços dos robôs funcionem é necessário instal
 
 Gazebo e players ![image](https://user-images.githubusercontent.com/92629573/156273435-3bd0d20f-303c-4d16-9230-d2ade5bd97da.png)
 Camara p_bmendes ![image](https://user-images.githubusercontent.com/92629573/156273971-22d4555c-997d-43ea-96b0-f756bd5194ba.png)
+Camara p_mrivadeneira ![image](https://user-images.githubusercontent.com/92629573/156274415-eb5f7f1e-bb13-49f3-83c9-ed259a01c406.png)
+RVIZ player ![image](https://user-images.githubusercontent.com/92629573/156274669-22b9c700-503c-4d47-a52d-7e72f094d63b.png)
+RVIZ navigation ![image](https://user-images.githubusercontent.com/92629573/156274980-308b1a65-1ffe-42a0-83fd-ed353cabbd91.png)
+
+
+

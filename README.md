@@ -1,27 +1,27 @@
 # Team Hunt (PSR - Trabalho3 Grupo1)
 Repositório para a partilha de conteúdos relativos ao trabalho prático número 3, realizado no âmbito da Unidade Curricular de Programação de Sistemas Robóticos (PSR) pelos alunos da Universidade de Aveiro:
-###### André Vasconcelos (88983);
-###### Bruno Mendes (83583);
-###### Ivo Bastos (93194);
-###### Martín Rivadeneira (104548).
+###### [André Vasconcelos (88983)](https://github.com/andredvasconcelos);
+###### [Bruno Mendes (83583)](https://github.com/bruno5198);
+###### [Ivo Bastos (93194)](https://github.com/IvoBastos);
+###### [Martín Rivadeneira (104548)](https://github.com/MartinRivadeneira).
 
 # Indice
- - [Instalação](#instalação)
- - [Launch files de lançamento do robô](#launch-files-de-lançamento-do-robo)
- - [Simulação em Gazebo](#simulação-em-gazebo)
- - [Vizualização do robô em RViz](#vizualização-do-robô-em-rviz)
- - [Manual driving race (Teleop)](#manual-driving-race-teleop)
- - [Seguimento de um Goal (RViz)](#seguimento-de-um-goal-rviz)
- - [Interface do nó driver](#interface-do-no-driver)
- - [Perceção da cena](#perceção-da-cena)
- - [Modo de fuga](#modo-de-fuga)
- - [Modo de perseguição](#modo-de-perseguição)
- - [Evitar obstáculos](#evitar-obstáculos)
- - [Mapeamento do cenário](#mapeamento-do-cenário)
- - [Variabilidade de drivers](#variabilidade-de-drivers)
- - [Árbitro](#arbitro)
- - [Extras](#extras)
- - [Demonstração do jogo](#demonstração-do-jogo)
+ - [Instalação](#instalação);
+ - [Launch files de lançamento do robô](#launch-files-de-lançamento-do-robo);
+ - [Simulação em Gazebo](#simulação-em-gazebo);
+ - [Vizualização do robô em RViz](#vizualização-do-robô-em-rviz);
+ - [Manual driving race (Teleop)](#manual-driving-race-teleop);
+ - [Seguimento de um Goal (RViz)](#seguimento-de-um-goal-rviz);
+ - [Interface do nó driver](#interface-do-no-driver);
+ - [Perceção da cena](#perceção-da-cena);
+ - [Modo de fuga](#modo-de-fuga);
+ - [Modo de perseguição](#modo-de-perseguição);
+ - [Evitar obstáculos](#evitar-obstáculos);
+ - [Mapeamento do cenário](#mapeamento-do-cenário);
+ - [Variabilidade de drivers](#variabilidade-de-drivers);
+ - [Árbitro](#arbitro);
+ - [Extras](#extras);
+ - [Demonstração do jogo](#demonstração-do-jogo).
 
 # Instalação
 Como ponto de partida deve certificar-se de que possui o [ROS](http://wiki.ros.org/ROS/Introduction) instalado. Caso necessário, pode consultar um guia de instalação [aqui](http://wiki.ros.org/ROS/Installation). Salientar que, todo o trabalho presente neste repositório fora desenvolvido sobre o sistema [ROS Noetic](http://wiki.ros.org/noetic).

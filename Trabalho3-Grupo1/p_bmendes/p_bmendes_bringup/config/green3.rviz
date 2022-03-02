@@ -3,14 +3,7 @@ Panels:
     Help Height: 0
     Name: Displays
     Property Tree Widget:
-      Expanded:
-        - /Global Options1
-        - /Status1
-        - /Image1
-        - /Back_Image1
-        - /LaserScan1
-        - /RobotModel1
-        - /Pose1
+      Expanded: ~
       Splitter Ratio: 0.47652581334114075
     Tree Height: 399
   - Class: rviz/Selection
@@ -205,6 +198,16 @@ Visualization Manager:
       Topic: /move_base_simple/goal
       Unreliable: false
       Value: true
+    - Alpha: 0.699999988079071
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: true
+      Name: Map
+      Topic: /green3/map
+      Unreliable: false
+      Use Timestamp: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 255; 255; 255
@@ -233,7 +236,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 10.5936861038208
+      Distance: 10.05001449584961
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -241,17 +244,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0.7065249085426331
-        Y: 0.11043151468038559
-        Z: 0.6378553509712219
+        X: 1.179126262664795
+        Y: -1.2073270082473755
+        Z: 2.4471895694732666
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.6103979349136353
+      Pitch: -1.5697963237762451
       Target Frame: <Fixed Frame>
-      Yaw: 3.5772268772125244
+      Yaw: 2.997204065322876
     Saved: ~
 Window Geometry:
   Back_Image:

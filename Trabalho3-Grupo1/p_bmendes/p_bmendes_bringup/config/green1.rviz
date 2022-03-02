@@ -198,6 +198,16 @@ Visualization Manager:
       Topic: /move_base_simple/goal
       Unreliable: false
       Value: true
+    - Alpha: 0.699999988079071
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: true
+      Name: Map
+      Topic: /green1/map
+      Unreliable: false
+      Use Timestamp: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 255; 255; 255
@@ -226,7 +236,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.915910482406616
+      Distance: 10.05001449584961
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -234,17 +244,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 1.8745994567871094
-        Y: -0.1599719524383545
-        Z: 2.422495126724243
+        X: 1.179126262664795
+        Y: -1.2073270082473755
+        Z: 2.4471895694732666
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.5853980779647827
+      Pitch: -1.5697963237762451
       Target Frame: <Fixed Frame>
-      Yaw: 3.077218770980835
+      Yaw: 2.997204065322876
     Saved: ~
 Window Geometry:
   Back_Image:

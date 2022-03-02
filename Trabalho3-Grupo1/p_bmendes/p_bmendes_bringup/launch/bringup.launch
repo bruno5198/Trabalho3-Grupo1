@@ -12,6 +12,10 @@
     <arg name="y_pos" default="-1.5"/>
     <arg name="z_pos" default="0.0"/>
 
+    <include file="$(find p_bmendes_bringup)/launch/gmapping.launch">
+        <arg name="player_name" value="$(arg player_name)"/>
+    </include>
+
     <group ns = "$(arg player_name)">
         <param name="tf_prefix" value="$(arg player_name)"></param>
         <!--Bloco 3: Carregamento do xacro do robot para o parâmetro robot_description.-->

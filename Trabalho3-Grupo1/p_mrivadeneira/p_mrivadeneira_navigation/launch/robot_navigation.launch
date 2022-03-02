@@ -4,8 +4,8 @@
   <arg name="model" default="waffle_pi"/>
   <arg name="open_rviz" default="true"/>
   <arg name="move_forward_only" default="false"/>
-  <arg name="player_name" default="blue1"/>
-  <arg name="player_color" default="Blue"/>
+  <arg name="player_name" default="red1"/>
+  <arg name="player_color" default="Red"/>
   <arg name="arena" default="1"/>
   <arg name="gmapping" default="false"/>
   <arg name="map_file" default="$(find p_mrivadeneira_description)/maps/$(arg arena)/map.yaml"/>

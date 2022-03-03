@@ -8,14 +8,17 @@
     <arg name="player_color" default="Red"/>        # To set player color.
     <arg name="visualize" default="true"/>          # To set if we want to see rviz or not.
     <arg name="camera_visualize" default="true"/>
+    <arg name="gmapping" default="true"/>
     <arg name="x_pos" default="0.0"/>
     <arg name="y_pos" default="-1.5"/>
     <arg name="z_pos" default="0.0"/>
     <arg name="yaw" default="0.0"/>
 
-    <include file="$(find p_bmendes_bringup)/launch/gmapping.launch">
-        <arg name="player_name" value="$(arg player_name)"/>
-    </include>
+    <group if="$(arg gmapping)">
+        <include file="$(find p_bmendes_bringup)/launch/gmapping.launch">
+            <arg name="player_name" value="$(arg player_name)"/>
+        </include>
+    </group>
 
     <group ns = "$(arg player_name)">
         <param name="tf_prefix" value="$(arg player_name)"></param>
@@ -29,7 +32,7 @@
             <arg name="x_pos" value="$(arg x_pos)"/>
             <arg name="y_pos" value="$(arg y_pos)"/>
             <arg name="z_pos" value="$(arg z_pos)"/>
-            <arg name="yaw" default="0.0"/>
+            <arg name="yaw" default="$(arg yaw)"/>
         </include>
 
         <group if = "$(arg visualize)">

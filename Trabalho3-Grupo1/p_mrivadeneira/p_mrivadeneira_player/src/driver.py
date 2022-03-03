@@ -6,6 +6,7 @@ import re
 import sys
 import tf2_ros
 import time
+import copy
 from math import *
 from geometry_msgs.msg import Twist, PoseStamped, Point
 from std_msgs.msg import Float64
@@ -65,6 +66,7 @@ class Driver():
 
         # State machine
         self.state = 'None'
+        # self.previous_state = 'None'
 
         # Initial values
         self.angle = 0
@@ -280,6 +282,10 @@ class Driver():
             if not Z1:
                 lin = 0.7
                 ang = 0
+                if Z0:
+                    ang = 0.5
+                elif Z2:
+                    ang = -0.5
             else:
                 lin = 0.3
                 if Z0:
@@ -287,22 +293,23 @@ class Driver():
                 elif Z2:
                     ang = -1
                 else:
-                    choises = [-1, 1]
-                    k = random.choice(choises)
-                    k = 1
-                    ang = k*0.5
+                    ang = 0.5
 
         if self.state == 'Running away from unknown robot':
 
             if not Z1:
                 lin = 1
                 ang = 0
-            else:
-                lin = 1
                 if Z0:
                     ang = 0.5
-                else:
+                elif Z2:
                     ang = -0.5
+            else:
+                lin = 0.3
+                if Z0:
+                    ang = 1
+                else:
+                    ang = -1
 
         if self.state == 'Following target':
 
@@ -321,25 +328,44 @@ class Driver():
             else:
                 self.last_target_position_left = False
 
+            # if self.previous_state != 'Following target':
+            #     lin = 0
+            #     ang = 0
+            #     time.sleep(0.4)
+
         if self.state == 'Catching near target':
+
+            # lin += 0.02
+            #
+            # if lin > 2:  # Saturate linear velocity
+            #     lin = 2
+            # if lin < 1.5:
+            #     lin = 1.5
+
+            lin = 1.5
 
             x = self.target.x
             y = self.target.y
 
-            distance_to_goal = sqrt(x ** 2 + y ** 2) / 2.5
+            ang1 = atan2(y, x)
+            error_ang = (600 - target_position)
+            ang2 = kp * error_ang + kd * (
+                        error_ang - error_ang_prev) / 2  # Angular value PD controlled - Better results agains P controller
+            ang = (ang1+ang2)/2
 
-            ang = atan2(y, x)
-
-            G = 1
-            m = 1
-
-
-            vel = G*m/(distance_to_goal + 0.001)  # Gravitational Proportional Controller
-
-            if vel < lin:
-                pass
-            else:
-                lin = vel
+            #
+            # distance_to_goal = sqrt(x ** 2 + y ** 2) / 2.5
+            #
+            # G = 1
+            # m = 1
+            #
+            #
+            # vel = G*m/(distance_to_goal + 0.001)  # Gravitational Proportional Controller
+            #
+            # if vel < lin:
+            #     pass
+            # else:
+            #     lin = vel
 
         if self.state == 'Following target avoiding threat':
 
@@ -372,7 +398,7 @@ class Driver():
                 lin = min_linear
 
             # if threat_position <= 600:
-            error_ang = (300 - threat_position)
+            error_ang = -(600 - threat_position)
             # else:
             #     error_ang = (600 - target_position) + threat_position / 2
 
@@ -393,15 +419,12 @@ class Driver():
         if self.state == 'Reverse Gear':
             lin = -1
             ang = 0
-            time.sleep(0.2)
+            time.sleep(0.4)
 
-        # Run driver
-        if self.run == 'true':
-            self.speed = lin
-            self.angle = ang
-        else:
-            self.speed = 0
-            self.angle = 0
+        self.speed = lin
+        self.angle = ang
+
+        # self.previous_state = self.state
 
     def SendCommandCallback(self, event):
 
@@ -414,7 +437,9 @@ class Driver():
         twist.linear.x = self.speed
         twist.angular.z = self.angle
 
-        self.publisher_command.publish(twist)
+        # Run driver
+        if self.run == 'true':
+            self.publisher_command.publish(twist)
 
 def talker():
 

@@ -12,16 +12,17 @@
 
     <group if="$(eval teammates  == 1)">
 
-        <!-- RED TEAM -->
+         <!-- RED TEAM -->
         <include file="$(find p_bmendes_bringup)/launch/bringup.launch">
             <arg name="player_name" value="red1"/>      # To set player name.
             <arg name="player_color" value="Red"/>      # To set player color.
             <arg name="visualize" default="false"/>
             <arg name="camera_visualize" default="false"/>
-            <arg name="x_pos" value="0.0"/>
+            <arg name="gmapping" default="false"/>
+            <arg name="x_pos" value="6.0"/>
             <arg name="y_pos" value="0.0"/>
             <arg name="z_pos" value="0.0"/>
-            <arg name="yaw" default="1.57"/>
+            <arg name="yaw" default="3.14"/>
         </include>
 
         <!-- GREEN TEAM -->
@@ -30,11 +31,13 @@
             <arg name="player_color" value="Green"/>      # To set player color.
             <arg name="visualize" default="false"/>
             <arg name="camera_visualize" default="false"/>
-            <arg name="x_pos" value="6.0"/>
-            <arg name="y_pos" value="0.0"/>
+            <arg name="gmapping" default="false"/>
+            <arg name="x_pos" value="2.0"/>
+            <arg name="y_pos" value="-2.5"/>
             <arg name="z_pos" value="0.0"/>
-            <arg name="yaw" default="0.0"/>
+            <arg name="yaw" default="1.57"/>
         </include>
+
 
         <!-- BLUE TEAM -->
         <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
@@ -43,10 +46,11 @@
             <arg name="run_driver" default="true"/>
             <arg name="visualize" default="false"/>
             <arg name="camera_visualize" default="false"/>
+            <arg name="gmapping" default="false"/>
             <arg name="x_pos" default="-6.0"/>
-            <arg name="y_pos" default="0.0"/>
+            <arg name="y_pos" default="2.0"/>
             <arg name="z_pos" default="0.0"/>
-            <arg name="yaw" default="3.14"/>
+            <arg name="yaw" default="0.0"/>
         </include>
     </group>
 
@@ -58,19 +62,24 @@
             <arg name="player_color" value="Red"/>      # To set player color.
             <arg name="visualize" default="false"/>
             <arg name="camera_visualize" default="false"/>
-            <arg name="x_pos" value="0.0"/>
-            <arg name="y_pos" value="0.0"/>
+            <arg name="gmapping" default="false"/>
+            <arg name="x_pos" value="-2.0"/>
+            <arg name="y_pos" value="-2.5"/>
             <arg name="z_pos" value="0.0"/>
+            <arg name="yaw" default="1.57"/>
         </include>
         <include file="$(find p_bmendes_bringup)/launch/bringup.launch">
             <arg name="player_name" value="red2"/>      # To set player name.
             <arg name="player_color" value="Red"/>      # To set player color.
             <arg name="visualize" default="false"/>
             <arg name="camera_visualize" default="false"/>
-            <arg name="x_pos" value="0.0"/>
-            <arg name="y_pos" value="-2.0"/>
+            <arg name="gmapping" default="false"/>
+            <arg name="x_pos" value="6.0"/>
+            <arg name="y_pos" value="0.0"/>
             <arg name="z_pos" value="0.0"/>
+            <arg name="yaw" default="3.14"/>
         </include>
+
 
         <!-- GREEN TEAM -->
         <include file="$(find p_bmendes_bringup)/launch/bringup.launch">
@@ -78,18 +87,22 @@
             <arg name="player_color" value="Green"/>      # To set player color.
             <arg name="visualize" default="false"/>
             <arg name="camera_visualize" default="false"/>
-            <arg name="x_pos" value="6.0"/>
-            <arg name="y_pos" value="0.0"/>
+            <arg name="gmapping" default="false"/>
+            <arg name="x_pos" value="2.0"/>
+            <arg name="y_pos" value="-2.5"/>
             <arg name="z_pos" value="0.0"/>
+            <arg name="yaw" default="1.57"/>
         </include>
         <include file="$(find p_bmendes_bringup)/launch/bringup.launch">
             <arg name="player_name" value="green2"/>      # To set player name.
             <arg name="player_color" value="Green"/>      # To set player color.
             <arg name="visualize" default="false"/>
             <arg name="camera_visualize" default="false"/>
-            <arg name="x_pos" value="6.0"/>
+            <arg name="gmapping" default="false"/>
+            <arg name="x_pos" value="-6.0"/>
             <arg name="y_pos" value="-2.0"/>
             <arg name="z_pos" value="0.0"/>
+            <arg name="yaw" default="0.0"/>
         </include>
 
         <!-- BLUE TEAM -->
@@ -99,9 +112,11 @@
             <arg name="run_driver" default="true"/>
             <arg name="visualize" default="false"/>
             <arg name="camera_visualize" default="false"/>
-            <arg name="x_pos" default="-6.0"/>
-            <arg name="y_pos" default="0.0"/>
+            <arg name="gmapping" default="false"/>
+            <arg name="x_pos" default="6.0"/>
+            <arg name="y_pos" default="-2.0"/>
             <arg name="z_pos" default="0.0"/>
+            <arg name="yaw" default="3.14"/>
         </include>
         <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
             <arg name="player_name" default="blue2"/>
@@ -109,9 +124,11 @@
             <arg name="run_driver" default="true"/>
             <arg name="visualize" default="false"/>
             <arg name="camera_visualize" default="false"/>
+            <arg name="gmapping" default="false"/>
             <arg name="x_pos" default="-6.0"/>
-            <arg name="y_pos" default="-2.0"/>
+            <arg name="y_pos" default="2.0"/>
             <arg name="z_pos" default="0.0"/>
+            <arg name="yaw" default="0.0"/>
         </include>
     </group>
 
@@ -123,29 +140,34 @@
             <arg name="player_color" value="Red"/>      # To set player color.
             <arg name="visualize" default="false"/>
             <arg name="camera_visualize" default="false"/>
-            <arg name="x_pos" value="0.0"/>
-            <arg name="y_pos" value="0.0"/>
+            <arg name="gmapping" default="false"/>
+            <arg name="x_pos" value="-2.0"/>
+            <arg name="y_pos" value="-2.5"/>
             <arg name="z_pos" value="0.0"/>
+            <arg name="yaw" default="1.57"/>
         </include>
         <include file="$(find p_bmendes_bringup)/launch/bringup.launch">
             <arg name="player_name" value="red2"/>      # To set player name.
             <arg name="player_color" value="Red"/>      # To set player color.
             <arg name="visualize" default="false"/>
             <arg name="camera_visualize" default="false"/>
-            <arg name="x_pos" value="0.0"/>
-            <arg name="y_pos" value="-2.0"/>
+            <arg name="gmapping" default="false"/>
+            <arg name="x_pos" value="6.0"/>
+            <arg name="y_pos" value="0.0"/>
             <arg name="z_pos" value="0.0"/>
+            <arg name="yaw" default="3.14"/>
         </include>
         <include file="$(find p_bmendes_bringup)/launch/bringup.launch">
             <arg name="player_name" value="red3"/>      # To set player name.
             <arg name="player_color" value="Red"/>      # To set player color.
             <arg name="visualize" default="false"/>
             <arg name="camera_visualize" default="false"/>
-            <arg name="x_pos" value="0.0"/>
-            <arg name="y_pos" value="2.0"/>
+            <arg name="gmapping" default="false"/>
+            <arg name="x_pos" value="-6.0"/>
+            <arg name="y_pos" value="0.0"/>
             <arg name="z_pos" value="0.0"/>
+            <arg name="yaw" default="0.0"/>
         </include>
-
 
         <!-- GREEN TEAM -->
         <include file="$(find p_bmendes_bringup)/launch/bringup.launch">
@@ -153,27 +175,33 @@
             <arg name="player_color" value="Green"/>      # To set player color.
             <arg name="visualize" default="false"/>
             <arg name="camera_visualize" default="false"/>
-            <arg name="x_pos" value="6.0"/>
-            <arg name="y_pos" value="0.0"/>
+            <arg name="gmapping" default="false"/>
+            <arg name="x_pos" value="2.0"/>
+            <arg name="y_pos" value="-2.5"/>
             <arg name="z_pos" value="0.0"/>
+            <arg name="yaw" default="1.57"/>
         </include>
         <include file="$(find p_bmendes_bringup)/launch/bringup.launch">
             <arg name="player_name" value="green2"/>      # To set player name.
             <arg name="player_color" value="Green"/>      # To set player color.
             <arg name="visualize" default="false"/>
             <arg name="camera_visualize" default="false"/>
+            <arg name="gmapping" default="false"/>
             <arg name="x_pos" value="6.0"/>
-            <arg name="y_pos" value="-2.0"/>
+            <arg name="y_pos" value="2.0"/>
             <arg name="z_pos" value="0.0"/>
+            <arg name="yaw" default="3.14"/>
         </include>
         <include file="$(find p_bmendes_bringup)/launch/bringup.launch">
             <arg name="player_name" value="green3"/>      # To set player name.
             <arg name="player_color" value="Green"/>      # To set player color.
             <arg name="visualize" default="false"/>
             <arg name="camera_visualize" default="false"/>
-            <arg name="x_pos" value="6.0"/>
-            <arg name="y_pos" value="2.0"/>
+            <arg name="gmapping" default="false"/>
+            <arg name="x_pos" value="-6.0"/>
+            <arg name="y_pos" value="-2.0"/>
             <arg name="z_pos" value="0.0"/>
+            <arg name="yaw" default="0.0"/>
         </include>
 
         <!-- BLUE TEAM -->
@@ -183,9 +211,11 @@
             <arg name="run_driver" default="true"/>
             <arg name="visualize" default="false"/>
             <arg name="camera_visualize" default="false"/>
-            <arg name="x_pos" default="-6.0"/>
-            <arg name="y_pos" default="0.0"/>
+            <arg name="gmapping" default="false"/>
+            <arg name="x_pos" default="0.0"/>
+            <arg name="y_pos" default="-2.5"/>
             <arg name="z_pos" default="0.0"/>
+            <arg name="yaw" default="1.57"/>
         </include>
         <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
             <arg name="player_name" default="blue2"/>
@@ -193,9 +223,11 @@
             <arg name="run_driver" default="true"/>
             <arg name="visualize" default="false"/>
             <arg name="camera_visualize" default="false"/>
-            <arg name="x_pos" default="-6.0"/>
+            <arg name="gmapping" default="false"/>
+            <arg name="x_pos" default="6.0"/>
             <arg name="y_pos" default="-2.0"/>
             <arg name="z_pos" default="0.0"/>
+            <arg name="yaw" default="3.14"/>
         </include>
         <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
             <arg name="player_name" default="blue3"/>
@@ -203,9 +235,11 @@
             <arg name="run_driver" default="true"/>
             <arg name="visualize" default="false"/>
             <arg name="camera_visualize" default="false"/>
+            <arg name="gmapping" default="false"/>
             <arg name="x_pos" default="-6.0"/>
             <arg name="y_pos" default="2.0"/>
             <arg name="z_pos" default="0.0"/>
+            <arg name="yaw" default="0.0"/>
         </include>
     </group>
 

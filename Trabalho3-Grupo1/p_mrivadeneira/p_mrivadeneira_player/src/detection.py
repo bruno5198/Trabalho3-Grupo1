@@ -100,7 +100,7 @@ def MarkerArrayReceivedCallback(marker_array):
     walls[4] = False
 
 
-    distance_limit = 1.5
+    distance_limit = 2      #1.5
 
     if len(marker_array.markers) > 0:
         # print(marker_array.markers[0].points[0])

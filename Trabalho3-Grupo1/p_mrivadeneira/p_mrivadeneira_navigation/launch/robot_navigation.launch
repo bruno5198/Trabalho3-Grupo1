@@ -17,8 +17,9 @@
   <include file="$(find p_mrivadeneira_bringup)/launch/bringup.launch">
     <arg name="player_name" default="$(arg player_name)"/>
     <arg name="player_color" default="$(arg player_color)"/>
+    <arg name="run_driver" default="false"/>
     <arg name="visualize" default="false"/>
-    <arg name="camera_visualize" default="false"/>
+    <arg name="camera_visualize" default="true"/>
     <arg name="x_pos" default="6.0"/>
     <arg name="y_pos" default="3.0"/>
     <arg name="z_pos" default="0.0"/>

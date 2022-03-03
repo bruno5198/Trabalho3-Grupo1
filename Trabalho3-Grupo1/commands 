@@ -25,6 +25,7 @@ rosrun p_bmendes_player driver.py __name:=red1 true
 
 FOLLOWING GOAL
 
+roslaunch p_mrivadeneira_bringup bringup.launch player_name:=red1 player_color:=Red run_driver:=false visualize:=false camera_visualize:=true
 roslaunch p_mrivadeneira_navigation robot_navigation.launch arena:=1
 
 

@@ -80,6 +80,10 @@ Para o ontrolo do robô através do controlador do ROS deve executar o seguinte 
 
     roslaunch p_mrivadeneira_bringup myteleop.launch player_name:=[nome]
     
+
+###### Clique na imagem para ver um pequeno video demonstrativo da condução manual de um robô com o recurso ao controlador do ROS.
+[![Watch the video](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/Manual%20driving%20with%20ROS%20controller.png)](https://www.youtube.com/watch?v=mcEqHTWQLvI)
+
 Para tornar a condução manual de um robô mais interessante, pode controlar o mesmo com o recurso a um telemóvel que desempenha a função de um joystick. Para isso é necessário a instalação prévia, no seu smartphone, da aplicação [ROS Control](https://play.google.com/store/apps/details?id=com.robotca.ControlApp).
 
 Depois de instalada a referida aplicação, deve adicionar um novo robô (como mostra a figura da esquerda), parametrizando-o em função do nome do robô que pretende controlar, do IP do computador onde está a correr a simulação em Gazebo e do nome dos tópicos que pretende controlar (como mostra a figura da direita). Posto isto o robô pode então ser controlado, por exemplo, através da função de joystick que a apicação disponibiliza.
@@ -88,8 +92,8 @@ Adição de um novo robô     |  Parametrização do robô
 :-------------------------:|:-------------------------:
 ![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/ROS_Application_Add_Robot.jpg)  |  ![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/ROS_Application-Parameterize_Robot.jpg)
 
-###### Clique na imagem para ver um pequeno video demonstrativo da condução manual de um robô.
-!!!!!!!!! Colocar aqui um vídeo do controlo manual do robô !!!!!!!!!!
+###### Clique na imagem para ver um pequeno video demonstrativo da condução manual de um robô com o recurso à aplicação ROS Control.
+[![Watch the video](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/Manual%20driving%20with%20ROS%20Control%20application.png)](https://www.youtube.com/watch?v=NBYDDc-LTdQ)
 
 **Nota:** Para que seja possível o controlo do robô como descrito anteriormente, é neessário que o computador onde está a correr a simulação em Gazebo e o telemóvel através do qual se pretende controlar o robô estejam na mesma rede.
 
@@ -153,20 +157,20 @@ Como fora abordado ao longo das secções anteriores, o presente projeto conta c
 Para a monitorização do jogo, foi implementado um [árbitro](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/TeamHunt/th_referee/src/th_referee) (código criado pelo professor da Unidade Curricular).
 O árbitro pode ser lançado/executado correndo o seguinte comando num terminal:
 
-    rosrun TeamHunt_th_referee th_referee
+    rosrun th_referee th_referee
 
 # Máquina de estados
 Para o controlo do robô optou-se por uma abordagem baseada numa máquina de estados composta por nove estados, nomeadamente na versão [p_mrivadeneira](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_mrivadeneira):
 
- - Estado 1 ("Catching near target"): O robô percebe que possui uma presa próximo de si, através da informação proveniente dos diversos sensores que possui, e tenta capturá-lo;
- - Estado 2 ("Escaping from near threat"): O robô, sabendo que tem um caçador próximo de si, tenta evitar o mesmo movimentando-se no sentido oposto;
- - Estado 3 ("Wondering"): O robô movimenta-se em frente, evitando as paredes caso necessário, enquanto não deteta nenhuma presa/caçador;
- - Estado 4 ("Running away from unknown robot"): Caso o robô detete a presença de um outro robô próximo de si, contudo não sabe se se trata de uma presa ou de um caçador, ativa o modo de defesa, colocando os braços numa determinada posição e tenta fugir rapidamente;
- - Estado 5 ("Following target"): Caso o robô detete uma presa, segue a mesma só com o recurso à câmara;
- - Estado 6 ("Following target avoiding threat"): Caso o robô detete quer uma presa quer uma caçador, no entanto sabe que o caçador está mais próximo de si, tenta movimentar-se no sentido de apanhar a presa detetada mas evitando/contornando o caçador;
- - Estado 7 ("Avoiding threat"):Caso o robô detete um caçador (ameaça), evita a mesma só com o recurso à câmara;
- - Estado 8 ("Following Goal"): Caso seja definido manualmente um Goal, no RViz, o robô segue em direção ao mesmo, corrigindo a sua orientação durante o movimento;
- - Estadp 9 ("Reverse gear"): Caso o robô fique preso numa parede, anda para trás o tempo suficiente para que, através do estado 3, consiga evitar a parede.
+ - Estado 1 (**"Catching near target"**): O robô percebe que possui uma presa próximo de si, através da informação proveniente dos diversos sensores que possui, e tenta capturá-lo;
+ - Estado 2 (**"Escaping from near threat"**): O robô, sabendo que tem um caçador próximo de si, tenta evitar o mesmo movimentando-se no sentido oposto;
+ - Estado 3 (**"Wondering"**): O robô movimenta-se em frente, evitando as paredes caso necessário, enquanto não deteta nenhuma presa/caçador;
+ - Estado 4 (**"Running away from unknown robot"**): Caso o robô detete a presença de um outro robô próximo de si, contudo não sabe se se trata de uma presa ou de um caçador, ativa o modo de defesa, colocando os braços numa determinada posição e tenta fugir rapidamente;
+ - Estado 5 (**"Following target"**): Caso o robô detete uma presa, segue a mesma só com o recurso à câmara;
+ - Estado 6 (**"Following target avoiding threat"**): Caso o robô detete quer uma presa quer uma caçador, no entanto sabe que o caçador está mais próximo de si, tenta movimentar-se no sentido de apanhar a presa detetada mas evitando/contornando o caçador;
+ - Estado 7 (**"Avoiding threat"**):Caso o robô detete um caçador (ameaça), evita a mesma só com o recurso à câmara;
+ - Estado 8 (**"Following Goal"**): Caso seja definido manualmente um Goal, no RViz, o robô segue em direção ao mesmo, corrigindo a sua orientação durante o movimento;
+ - Estadp 9 (**"Reverse gear"**): Caso o robô fique preso numa parede, anda para trás o tempo suficiente para que, através do estado 3, consiga evitar a parede.
 
 Na versão [p_bmendes](https://github.com/bruno5198/Trabalho3-Grupo1/tree/main/Trabalho3-Grupo1/p_bmendes) seguiu-se o mesmo princípio, ainda que com um menor número de estados.
 
@@ -182,12 +186,13 @@ Para que os controladores dos braços dos robôs funcionem é necessário instal
 **Nota:** No pacote "Ros controllers" deve ser apagado o pacote "four_wheel_steering_controller" pois apresenta um erro de compilação.
 
 # Demonstração do jogo
-De seguida serão apresentadas algumas imagens, bem como um pequeno vídeo demonstratido do jogo TeamHunt.
+De seguida serão apresentados alguns vídeos demonstratidos do jogo TeamHunt, nomeadamente com um, dois ou três jogadores de cada equipa (Azul, Verde e Vermelha) em jogo.
 
-Imagens 1     |  Imagem 2
-:-------------------------:|:-------------------------:
-![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/TeamHunt%20Game%20Example%201.png)  |  ![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/TeamHunt%20Game%20Example%202.png)
+###### Clique na imagem para ver um pequeno video demonstrativo do jogo TeamHunt com um jogador de cada equipa em competição.
+[![Watch the video](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/TeamHunt%20(1vs1vs1)%20Image.png)](https://www.youtube.com/watch?v=gR4_EITvUVw)
 
-Resultados do jogo
-:-------------------------:
-![Real Image](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/TeamHunt%20Game%20Results.png)
+###### Clique na imagem para ver um pequeno video demonstrativo do jogo TeamHunt com dois jogador de cada equipa em competição.
+[![Watch the video](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/TeamHunt%20(2vs2vs2)%20Image.png)](https://www.youtube.com/watch?v=jVjd_12RI5E)
+
+###### Clique na imagem para ver um pequeno video demonstrativo do jogo TeamHunt com três jogador de cada equipa em competição.
+[![Watch the video](https://github.com/bruno5198/Trabalho3-Grupo1/blob/main/Trabalho3-Grupo1/docs/TeamHunt%20(3vs3vs3)%20Image.png)](https://www.youtube.com/watch?v=NQnKURMJSyo)
